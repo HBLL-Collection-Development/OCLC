@@ -28,13 +28,15 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1 id="classify">Classify</h1>
+          <div id="wrapper">
+<h1>Classify</h1>
 
 <p><a href="http://www.oclc.org/content/developer/worldwide/en_us/develop/web-services/classify.html">Classify</a> allows you to classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier. One use case is a set of eBooks without a call number. You can use the Classify service to look up the call number for those books. Currently, this is an experimental OCLC service.</p>
 
-<h2 id="usage">Usage</h2>
+<h2>Usage</h2>
 
-<h3 id="minimalexample">Minimal example</h3>
+<h3>Minimal example</h3>
+
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
 <span class="k">use</span> <span class="nx">OCLC\classify\classify</span><span class="p">;</span>
@@ -51,7 +53,7 @@
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<h3 id="searchmethods">Search methods</h3>
+<h3>Search methods</h3>
 
 <ol>
 <li>
@@ -161,42 +163,63 @@
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">multi</span><span class="p">(</span><span class="nv">$multi</span><span class="p">);</span>
 </pre></div>
 </li>
-</ol>
+</ol><p>OCLC <code>OR</code>s all terms together when you include multiple search options.</p>
 
-<p>OCLC <code>OR</code>s all terms together when you include multiple search options.</p>
-
-<h4 id="options">Options</h4>
+<h4>Options</h4>
 
 <p>Options are included as an array after the search term(s). Example:</p>
-<!--MKCODEBLOCK-16-->
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$options</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'summary'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span> <span class="s1">'maxRecs'</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
 
 <ol>
-<li><code>summary</code>: Boolean. Summary or detailed record. Default: FALSE</li>
-<li><code>maxRecs</code>: Integer. Maximum number of records to be returned. Default: 25</li>
-<li><code>startRec</code>: Integer. Record to begin with (for pagination of results). Default: 1</li>
-<li><code>orderBy</code>: String. The desired sort order. Default: <code>hold desc</code>
+<li>
+<code>summary</code>: Boolean. Summary or detailed record. Default: FALSE</li>
+<li>
+<code>maxRecs</code>: Integer. Maximum number of records to be returned. Default: 25</li>
+<li>
+<code>startRec</code>: Integer. Record to begin with (for pagination of results). Default: 1</li>
+<li>
+<code>orderBy</code>: String. The desired sort order. Default: <code>hold desc</code>
 
 <ul>
-<li><code>mancount asc</code> (number of editions, ascending)</li>
-<li><code>mancount desc</code> (number of editions descending)</li>
-<li><code>hold asc</code> (holdings, ascending)</li>
-<li><code>hold desc</code> (holdings, descending)</li>
-<li><code>lyr asc</code> (date of first edition, ascending)</li>
-<li><code>lyr desc</code> (date of first edition, descending)</li>
-<li><code>hyr asc</code> (date of latest edition, ascending)</li>
-<li><code>hyr desc</code> (date of latest edition, descending)</li>
-<li><code>ln asc</code> (language, ascending)</li>
-<li><code>ln desc</code> (language, descending)</li>
-<li><code>sheading asc</code> (FAST subject heading, ascending)</li>
-<li><code>sheading desc</code> (FAST subject heading, descending)</li>
-<li><code>works asc</code> (number of works with this FAST subject heading, ascending)</li>
-<li><code>works desc</code> (number of works with this FAST subject heading, descending)</li>
-<li><code>type asc</code> (FAST subject type, ascending)</li>
-<li><code>type desc</code> (FAST subject type, descending)</li>
-</ul></li>
-</ol>
-
-<h4 id="formats">Formats</h4>
+<li>
+<code>mancount asc</code> (number of editions, ascending)</li>
+<li>
+<code>mancount desc</code> (number of editions descending)</li>
+<li>
+<code>hold asc</code> (holdings, ascending)</li>
+<li>
+<code>hold desc</code> (holdings, descending)</li>
+<li>
+<code>lyr asc</code> (date of first edition, ascending)</li>
+<li>
+<code>lyr desc</code> (date of first edition, descending)</li>
+<li>
+<code>hyr asc</code> (date of latest edition, ascending)</li>
+<li>
+<code>hyr desc</code> (date of latest edition, descending)</li>
+<li>
+<code>ln asc</code> (language, ascending)</li>
+<li>
+<code>ln desc</code> (language, descending)</li>
+<li>
+<code>sheading asc</code> (FAST subject heading, ascending)</li>
+<li>
+<code>sheading desc</code> (FAST subject heading, descending)</li>
+<li>
+<code>works asc</code> (number of works with this FAST subject heading, ascending)</li>
+<li>
+<code>works desc</code> (number of works with this FAST subject heading, descending)</li>
+<li>
+<code>type asc</code> (FAST subject type, ascending)</li>
+<li>
+<code>type desc</code> (FAST subject type, descending)</li>
+</ul>
+</li>
+</ol><h4>Formats</h4>
 
 <p>Normally, <code>format</code> would be included in the options array but Classify only returns <code>XML</code> so I have created a special call for different formats. If OCLC ever includes different formats as a default option, I will incorporate it into the options.</p>
 
@@ -206,26 +229,40 @@
 <li><code>xml</code></li>
 <li><code>json</code></li>
 <li><code>php_object</code></li>
-<li><code>php_array</code> (default)</li>
-</ol>
+<li>
+<code>php_array</code> (default)</li>
+</ol><p>Formats can be specified in two different ways:</p>
 
-<p>Formats can be specified in two different ways:</p>
-<!--MKCODEBLOCK-17-->
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+</pre></div>
 
 <p>OR</p>
-<!--MKCODEBLOCK-18-->
 
-<h4 id="oclcresponsecodes">OCLC Response Codes</h4>
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">set_format</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+</pre></div>
+
+<h4>OCLC Response Codes</h4>
 
 <ul>
-<li><code>0</code>: Success. Single-work summary response provided.</li>
-<li><code>2</code>: Success. Single-work detail response provided.</li>
-<li><code>4</code>: Success. Multi-work response provided.</li>
-<li><code>100</code>: No input. The method requires an input argument.</li>
-<li><code>101</code>: Invalid input. The standard number argument is invalid.</li>
-<li><code>102</code>: Not found. No data found for the input argument.</li>
-<li><code>200</code>: Unexpected error.</li>
+<li>
+<code>0</code>: Success. Single-work summary response provided.</li>
+<li>
+<code>2</code>: Success. Single-work detail response provided.</li>
+<li>
+<code>4</code>: Success. Multi-work response provided.</li>
+<li>
+<code>100</code>: No input. The method requires an input argument.</li>
+<li>
+<code>101</code>: Invalid input. The standard number argument is invalid.</li>
+<li>
+<code>102</code>: Not found. No data found for the input argument.</li>
+<li>
+<code>200</code>: Unexpected error.</li>
 </ul>
+</div>
         </section>
 
         <aside id="sidebar">
