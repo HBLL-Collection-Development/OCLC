@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>OCLC Web Services Library by jaredhowland</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>OCLC Web Services Library</h1>
+        <h2>PHP library to access OCLC web services</h2>
+        <a href="https://github.com/jaredhowland/OCLC" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="php-library-for-oclc-web-services" class="anchor" href="#php-library-for-oclc-web-services"><span class="octicon octicon-link"></span></a>PHP Library for <a href="http://www.oclc.org/developer/develop/web-services.en.html">OCLC Web Services</a>
+</h1>
+
+<p>The library currently supports the following services:</p>
+
+<ol>
+<li>
+<a href="http://www.oclc.org/content/developer/worldwide/en_us/develop/web-services/classify.html">Classify</a>: classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/xid-api.en.html">xID API</a> (partial support): submit an identifer such as an ISBN, ISSN, or OCLC Number to this service, and it returns a list of related identifiers and selected metadata.</li>
+</ol><p>I hope to include the following services in future updates:</p>
+
+<ol>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/fast-api.en.html">FAST API</a>: access to OCLC's Faceted Application of Subject Terminologies (FAST) subject headings data.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/lc-name-authority-file-lcnaf.en.html">LC Name Authority File (LCNAF)</a>: access to a database of LC Authority records extracted from WorldCat.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/questionpoint-knowledge-base-api.en.html">QuestionPoint Knowledge Base API</a>: access to QuestionPoint knowledge base Question and Answer (Q&amp;A) pairs that QuestionPoint libraries saved for future re-use, for FAQ pages, for patron searches. The QuestionPoint global knowledge base is a collection of Q&amp;A pairs contributed by nearly 500 libraries worldwide. Local knowledge bases are built and maintained by single libraries or regional library groups and usually contain information more specific to that group.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/terminology-services.en.html">Terminology Services</a>: access to a suite of seven controlled vocabularies and thesauri.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/virtual-international-authority-file-viaf.en.html">Virtual International Authority File (VIAF)</a>: authority data from 22 agencies in 19 countries, representing a variety of formats.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/worldcat-identities.en.html">WorldCat Identities</a>: service that provides personal, corporate and subject-based identities (writers, authors, characters, corporations, horses, ships, etc.) based on information in WorldCat.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/worldcat-knowledge-base-api.en.html">WorldCat knowledge base API</a>: read-only service for e-resource discovery and linking. Provides developer-level access to a library's information in the WorldCat knowledge base. The WorldCat knowledge base combines data about your library's econtent with access to it through linking features.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/worldcat-recommender-service.en.html">WorldCat Recommender Service</a>: provides recommendations for books and other materials based on data in WorldCat.</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/worldcat-registry.en.html">WorldCat Registry</a>: access to information in the Worldcat Registry: a free global directory for libraries, consortia, archives and museums. (<a href="http://www.worldcat.org/registry/institutions">http://www.worldcat.org/registry/institutions</a>)</li>
+<li>
+<a href="http://www.oclc.org/developer/develop/web-services/worldcat-search-api.en.html">WorldCat Search API</a>: access to WorldCat for bibliographic holdings and location data.</li>
+</ol><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>Download the folder and include it in your application's directory.</li>
+<li>
+<p>Include desired classes and <code>OCLCException.php</code> in any file you want to access the service from.</p>
+
+<ul>
+<li>Alternatively, you can use <code>spl_autoload_register</code> to automatically load the library into your application. For example, let's say your directory structure looks as follows:</li>
+</ul>
+<pre><code>.
++-- config.php
++-- index.php
++-- libs
+|   +-- OCLC
+|   |   +-- classify
+|   |   +-- …
+</code></pre>
+
+<ul>
+<li>Place the following in your config file to be included in all your application files:</li>
+</ul>
+<div class="highlight highlight-php"><pre><span class="k">function</span> <span class="nf">autoload_libs</span><span class="p">(</span><span class="nv">$class_name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$class_name</span> <span class="o">=</span> <span class="nb">ltrim</span><span class="p">(</span><span class="nv">$class_name</span><span class="p">,</span> <span class="s1">'\\'</span><span class="p">);</span>
+  <span class="nv">$file_name</span>  <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="nv">$namespace</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$lastNsPos</span> <span class="o">=</span> <span class="nb">strrpos</span><span class="p">(</span><span class="nv">$class_name</span><span class="p">,</span> <span class="s1">'\\'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$namespace</span> <span class="o">=</span> <span class="nx">substr</span><span class="p">(</span><span class="nv">$class_name</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">$lastNsPos</span><span class="p">);</span>
+    <span class="nv">$class_name</span> <span class="o">=</span> <span class="nx">substr</span><span class="p">(</span><span class="nv">$class_name</span><span class="p">,</span> <span class="nv">$lastNsPos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$file_name</span>  <span class="o">=</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/libs/'</span> <span class="o">.</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'\\'</span><span class="p">,</span> <span class="nx">DIRECTORY_SEPARATOR</span><span class="p">,</span> <span class="nv">$namespace</span><span class="p">)</span> <span class="o">.</span> <span class="nx">DIRECTORY_SEPARATOR</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nv">$file_name</span> <span class="o">.=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'_'</span><span class="p">,</span> <span class="nx">DIRECTORY_SEPARATOR</span><span class="p">,</span> <span class="nv">$class_name</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'.php'</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$file_name</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">include_once</span><span class="p">(</span><span class="nv">$file_name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">spl_autoload_register</span><span class="p">(</span><span class="s1">'autoload_libs'</span><span class="p">);</span>
+</pre></div>
+</li>
+</ol><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ul>
+<li><a href="classify/README.md">Classify</a></li>
+<li><a href="xid/README.md">xID</a></li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/jaredhowland/OCLC/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/jaredhowland/OCLC/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/jaredhowland/OCLC"></a> is maintained by <a href="https://github.com/jaredhowland">jaredhowland</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
