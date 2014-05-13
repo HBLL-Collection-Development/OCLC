@@ -54,88 +54,114 @@
 <h3 id="searchmethods">Search methods</h3>
 
 <ol>
-<li><code>stdnbr</code> or <code>standard_number</code>: The standard number (OCLC, ISBN, ISSN, UPC) number to search for.</li>
+<li>
+<p><code>stdnbr</code> or <code>standard_number</code>: The standard number (OCLC, ISBN, ISSN, UPC) number to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">standard_number</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>oclc</code>: The OCLC number to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">oclc</span><span class="p">(</span><span class="s1">'155131850'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>isbn</code>: The ISBN to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">isbn</span><span class="p">(</span><span class="s1">'9780545010221'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>issn</code>: The ISSN to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">issn</span><span class="p">(</span><span class="s1">'1531-4650'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>upc</code>: The UPC code to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">upc</span><span class="p">(</span><span class="s1">'085392246724'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>ident</code>: The FAST identifier to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">ident</span><span class="p">(</span><span class="s1">'01394255'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>heading</code>: The FAST heading to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">heading</span><span class="p">(</span><span class="s2">"Harry Potter and the philosopher's stone (Rowling, J. K.)"</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>lccn</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a> (<code>2014-05-13</code>: call fails on OCLCs end)</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn</span><span class="p">(</span><span class="s1">'99023982'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>lccn_pfx</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Prefix (<code>2014-05-13</code>: call fails on OCLCs end)</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_pfx</span><span class="p">(</span><span class="s1">'sh'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>lccn_yr</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Year (<code>2014-05-13</code>: call fails on OCLCs end)</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_yr</span><span class="p">(</span><span class="s1">'2014'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>lccn_sno</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Serial Number (<code>2014-05-13</code>: call fails on OCLCs end)</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_sno</span><span class="p">(</span><span class="s1">'023982'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>swid</code>: The FRBR work identifier to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">swid</span><span class="p">(</span><span class="s1">'34195'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>author</code>: The author name to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">author</span><span class="p">(</span><span class="s1">'rowling'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>title</code>: The title to search for.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">(</span><span class="s1">'Harry Potter and the Chamber of Secrets'</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>
+<p><code>multi</code>: Allows any combination of searche methods to be performed. Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<span class="nv">$multi</span>    <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'author'</span> <span class="o">=&gt;</span> <span class="s1">'rowling'</span><span class="p">,</span> <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'harry potter'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">multi</span><span class="p">(</span><span class="nv">$multi</span><span class="p">);</span>
+</pre></div>
+</li>
 </ol>
-
-<p><!--MKCODEBLOCK-1--></p>
-
-<ol>
-<li><code>oclc</code>: The OCLC number to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-2--></p>
-
-<ol>
-<li><code>isbn</code>: The ISBN to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-3--></p>
-
-<ol>
-<li><code>issn</code>: The ISSN to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-4--></p>
-
-<ol>
-<li><code>upc</code>: The UPC code to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-5--></p>
-
-<ol>
-<li><code>ident</code>: The FAST identifier to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-6--></p>
-
-<ol>
-<li><code>heading</code>: The FAST heading to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-7--></p>
-
-<ol>
-<li><code>lccn</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a> (<code>2014-05-13</code>: call fails on OCLCs end)</li>
-</ol>
-
-<p><!--MKCODEBLOCK-8--></p>
-
-<ol>
-<li><code>lccn_pfx</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Prefix (<code>2014-05-13</code>: call fails on OCLCs end)</li>
-</ol>
-
-<p><!--MKCODEBLOCK-9--></p>
-
-<ol>
-<li><code>lccn_yr</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Year (<code>2014-05-13</code>: call fails on OCLCs end)</li>
-</ol>
-
-<p><!--MKCODEBLOCK-10-->
-11. <code>lccn_sno</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Serial Number (<code>2014-05-13</code>: call fails on OCLCs end)</p>
-
-<p><!--MKCODEBLOCK-11--></p>
-
-<ol>
-<li><code>swid</code>: The FRBR work identifier to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-12--></p>
-
-<ol>
-<li><code>author</code>: The author name to search for.</li>
-</ol>
-
-<p><!--MKCODEBLOCK-13-->
-14. <code>title</code>: The title to search for.</p>
-
-<p><!--MKCODEBLOCK-14--></p>
-
-<ol>
-<li><code>multi</code>: Allows any combination of searche methods to be performed. Example:</li>
-</ol>
-
-<p><!--MKCODEBLOCK-15--></p>
 
 <p>OCLC <code>OR</code>s all terms together when you include multiple search options.</p>
 
