@@ -35,7 +35,21 @@
 <h2 id="usage">Usage</h2>
 
 <h3 id="minimalexample">Minimal example</h3>
-<!--MKCODEBLOCK-0-->
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\classify\classify</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+  <span class="nv">$data</span>     <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'785871937'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <h3 id="searchmethods">Search methods</h3>
 
