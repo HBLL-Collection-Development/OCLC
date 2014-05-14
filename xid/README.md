@@ -3,6 +3,12 @@
 
 xID is really three different services: [xISBN][2], [xISSN][3], [xStandardNumber][4].
 
+# Table of Contents
+1. [Introduction][13]
+1. [xISBN Usage][]
+2. [xISSN Usage][]
+3. [xStandardNumber Usage][]
+
 ## xISBN Usage
 
 ### Minimal example
@@ -93,6 +99,7 @@ $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 2. `callback`: String. JSON callback. Default: `null`
 4. `count`: Integer. Number of desired search results. Default: 1,000
 4. `fl`: String. Comma separated list of fields to return. Default: `*`
+    - `*`: all fields
     - `author`
     - `city`
     - `ed`
@@ -211,6 +218,7 @@ $data    = $xissn->getMetadata('0036-8075', $options);
 1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
 2. `callback`: String. JSON callback. Default: `null`
 3. `fl`: String. Comma separated list of fields to return. Default: `*`
+    - `*`: all fields
     - `author`
     - `city`
     - `ed`
@@ -247,7 +255,7 @@ use OCLC\xid\xstandardnumber;
 
 try {
   $xstandardnumber = new xstandardnumber;
-  $data  = $xstandardnumber->getMetadata('9780545010221');
+  $data = $xstandardnumber->getMetadata('9780545010221');
 } catch (Exception $e) {
   echo $e->getMessage();
 }
@@ -327,8 +335,8 @@ print_r($data);
 
   ```php
    $xstandardnumber = new xstandardnumber;
-   $data1 = $xstandardnumber->getVariants('080442957X');
-   $data2 = $xstandardnumber->get_variants('080442957X');
+   $data1 = $xstandardnumber->getVariants('owi', 'owi67201841');
+   $data2 = $xstandardnumber->get_variants('owi', 'owi67201841');
    ```
 
 10. `getVariantsByLccn` or `get_variants_by_lccn`
@@ -359,8 +367,8 @@ print_r($data);
 
    ```php
    $xstandardnumber = new xstandardnumber;
-   $data1 = $xstandardnumber->generateHash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
-   $data2 = $xstandardnumber->generate_hash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   $data1 = $xstandardnumber->generateHash('{ STANDARD NUMBER }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   $data2 = $xstandardnumber->generate_hash('{ STANDARD NUMBER }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    ```
 
 ### Options
@@ -376,7 +384,7 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
 2. `callback`: String. JSON callback. Default: `null`
 3. `fl`: String. Comma separated list of fields to return. Default: `*`
-    - `*`: All fields
+    - `*`: all fields
     - `lccn`
     - `oclcnum`
     - `owi`
@@ -423,3 +431,4 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 [10]: http://www.hathitrust.org/
 [11]: http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html
 [12]: https://www.worldcat.org/wcpa/do/AffiliateLogin
+[13]: #xid
