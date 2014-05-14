@@ -40,7 +40,7 @@ class classify {
       case 'php_array': $this->format = $format; break;
       case null:        $this->format = 'php_array'; break;
       default:
-        throw new \OCLC\OCLCException("Invalid format.\n\nValid formats include `xml`, `json`, `php_object`, and `php_array`.");
+        throw new \OCLC\OCLCException('Invalid format. Valid formats include `xml`, `json`, `php_object`, and `php_array`.');
         break;
     }
   }
@@ -56,7 +56,6 @@ class classify {
   public function stdnbr($stdnbr, $options = null) {
     return $this->get_stdnbr($stdnbr, $options);
   }
-
   /**
    * @see \OCLC\classify::stdnbr()
    */
@@ -318,7 +317,7 @@ class classify {
     if(is_array($search)) {
       return $this->get_classify_data('multi', $search, $options);
     } else {
-      throw new \OCLC\OCLCException("If you want to search multiple fields at once, the search terms must be placed in an array.\n\nValid search fields include `stdnbr` (or `standard_number`), `oclc`, `isbn`, `issn`, `upc`, `ident`, `heading`, `lccn`, `lccn_pfx`, `lccn_yr`, `lccn_sno`, `swid`, `author`, `title`.");
+      throw new \OCLC\OCLCException('If you want to search multiple fields at once, the search terms must be placed in an array. Valid search fields include `stdnbr` (or `standard_number`), `oclc`, `isbn`, `issn`, `upc`, `ident`, `heading`, `lccn`, `lccn_pfx`, `lccn_yr`, `lccn_sno`, `swid`, `author`, `title`.');
     }
   }
 
@@ -354,6 +353,7 @@ class classify {
    * @return string Search URL.
    */
   private function get_search_url($type, $search, $options) {
+    $exception_message = 'Only `multi` searches should be an array. Please try again using a string.';
     // `multi` searches
     if($type == 'multi') {
       $search = http_build_query($this->validate_search($search));
@@ -364,14 +364,14 @@ class classify {
         if(key($search) == $type) {
           $search = $type . '=' . reset($search);
         } else {
-          throw new \OCLC\OCLCException('Only `multi` searches should be an array. Please try again using a string.');
+          throw new \OCLC\OCLCException($exception_message);
         }
       // Construct URL parameters for search
       } elseif (!is_array($search)) {
         $search = $type . '=' . $search;
       // Otherwise, throw an exception
       } else {
-        throw new \OCLC\OCLCException('Only `multi` searches should be an array. Please try again using a string.');
+        throw new \OCLC\OCLCException($exception_message);
       }
     }
     return self::BASE_URL . $search . $this->set_options($options);
@@ -391,7 +391,7 @@ class classify {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException("Classify options must be passed as an array.\n\nValid options are `summary` (bool), `maxRecs` (int), `orderBy` (string), and `startRec` (int).");
+      throw new \OCLC\OCLCException('Classify options must be passed as an array. Valid options are `summary` (bool), `maxRecs` (int), `orderBy` (string), and `startRec` (int).');
     }
   }
 
@@ -407,7 +407,7 @@ class classify {
     $valid_search_types = array('stdnbr', 'standard_number', 'oclc', 'isbn', 'issn', 'upc', 'ident', 'heading', 'lccn', 'lccn_pfx', 'lccn_yr', 'lccn_sno', 'swid', 'author', 'title');
     foreach($search as $key => $value) {
       if(!in_array($key, $valid_search_types)) {
-        throw new \OCLC\OCLCException("Invalid search attempted.\n\nValid search fields include `stdnbr` (or `standard_number`), `oclc`, `isbn`, `issn`, `upc`, `ident`, `heading`, `lccn`, `lccn_pfx`, `lccn_yr`, `lccn_sno`, `swid`, `author`, `title`.");
+        throw new \OCLC\OCLCException('Invalid search attempted. Valid search fields include `stdnbr` (or `standard_number`), `oclc`, `isbn`, `issn`, `upc`, `ident`, `heading`, `lccn`, `lccn_pfx`, `lccn_yr`, `lccn_sno`, `swid`, `author`, `title`.');
       }
     }
     return $search;
@@ -440,14 +440,14 @@ class classify {
           if(in_array($value, $valid_orderBy_types)) {
             $options_array['orderBy'] = $value;
           } else {
-            throw new \OCLC\OCLCException("Invalid orderBy value.\n\nValid values are `mancount asc`, `mancount desc`, `hold asc`, `hold desc`, `lyr asc`, `lyr desc`, `hyr asc`, `hyr desc`, `ln asc`, `ln desc`, `sheading asc`, `sheading desc`, `works asc`, `works desc`, `type asc`, `type desc`.");
+            throw new \OCLC\OCLCException('Invalid orderBy value. Valid values are `mancount asc`, `mancount desc`, `hold asc`, `hold desc`, `lyr asc`, `lyr desc`, `hyr asc`, `hyr desc`, `ln asc`, `ln desc`, `sheading asc`, `sheading desc`, `works asc`, `works desc`, `type asc`, `type desc`.');
           }
           break;
         case 'startRec':
           $options_array['startRec'] = (int) $value;
           break;
         default:
-          throw new \OCLC\OCLCException("Invalid option parameter.\n\nValid parameters are `summary` (bool), `maxRecs` (int), `orderBy` (string), and `startRec` (int).");
+          throw new \OCLC\OCLCException('Invalid option parameter. Valid parameters are `summary` (bool), `maxRecs` (int), `orderBy` (string), and `startRec` (int).');
           break;
       }
     }
