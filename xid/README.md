@@ -1,13 +1,13 @@
+# Table of Contents
+1. [Introduction][13]
+1. [xISBN Usage][14]
+2. [xISSN Usage][15]
+3. [xStandardNumber Usage][16]
+
 # xID
 [xID][1] allows you to submit an identifer, such as an ISBN, ISSN, or OCLC Number, and return a list of related identifiers and selected metadata.
 
 xID is really three different services: [xISBN][2], [xISSN][3], [xStandardNumber][4].
-
-# Table of Contents
-1. [Introduction][13]
-1. [xISBN Usage][]
-2. [xISSN Usage][]
-3. [xStandardNumber Usage][]
 
 ## xISBN Usage
 
@@ -432,3 +432,6 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 [11]: http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html
 [12]: https://www.worldcat.org/wcpa/do/AffiliateLogin
 [13]: #xid
+[14]: #xisbn-usage
+[15]: #xissn-usage
+[16]: #xstandardnumber-usage
