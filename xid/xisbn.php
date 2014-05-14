@@ -2,7 +2,7 @@
 /**
   * Class to search OCLC xISBN Web Service
   *
-  * @link http://www.oclc.org/developer/develop/web-services/xid-api.en.html
+  * @link http://www.oclc.org/developer/develop/web-services/xid-api/xisbn-resource.en.html
   * @author Jared Howland <oclc@jaredhowland.com>
   * @version 2014-05-13
   * @since 2014-05-12
@@ -26,50 +26,149 @@ class xisbn extends xid {
     $this->base_url = 'http://xisbn' . parent::BASE_URL . 'isbn/';
   }
 
+  /**
+   * Queries xISBN service using fixChecksum
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function fixChecksum($isbn, $options = null) {
     return file_get_contents($this->construct_url('fixChecksum', $isbn, $options));
   }
 
+  /**
+   * Queries xISBN service using fixChecksum
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function fix_checksum($isbn, $options = null) {
     return $this->fixChecksum($isbn, $options);
   }
 
+  /**
+   * Queries xISBN service using getMetadata
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function getMetadata($isbn, $options = null) {
     return file_get_contents($this->construct_url('getMetadata', $isbn, $options));
   }
 
+  /**
+   * Queries xISBN service using getMetadata
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function get_metadata($isbn, $options = null) {
     return $this->getMetadata($isbn, $options);
   }
 
+  /**
+   * Queries xISBN service using getEditions
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function getEditions($isbn, $options = null) {
     return file_get_contents($this->construct_url('getEditions', $isbn, $options));
   }
 
+  /**
+   * Queries xISBN service using getEditions
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function get_editions($isbn, $options = null) {
     return $this->getEditions($isbn, $options);
   }
 
+  /**
+   * Queries xISBN service using hyphenate
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function hyphenate($isbn, $options = null) {
     return file_get_contents($this->construct_url('hyphenate', $isbn, $options));
   }
 
+  /**
+   * Queries xISBN service using to10
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function to10($isbn, $options = null) {
     return file_get_contents($this->construct_url('to10', $isbn, $options));
   }
 
+  /**
+   * Queries xISBN service using to13
+   *
+   * @access public
+   * @param string $isbn ISBN to search by.
+   * @param array $options Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string|array Results of query
+   */
   public function to13($isbn, $options = null) {
     return file_get_contents($this->construct_url('to13', $isbn, $options));
   }
 
-  public function generateHash($isbn, $ip, $secret) {
-    return md5($this->base_url . $isbn . '|' . $ip . '|' . $secret);
+  /**
+   * Generates hash based on the number being searched, the originating IP address, and the app secret
+   *
+   * @access public
+   * @param string $term ISBN to search by.
+   * @param string $ip Originating IP address.
+   * @param string $secret App secret.
+   * @return string Generated hash that can be used in a query.
+   */
+  public function generateHash($term, $ip, $secret) {
+    return $this->create_hash($this->base_url, $term, $ip, $secret);
   }
 
-  public function generate_hash($isbn, $ip, $secret) {
-    return $this->generateHash($isbn, $ip, $secret);
+  /**
+   * Generates hash based on the number being searched, the originating IP address, and the app secret
+   *
+   * @access public
+   * @param string $term ISBN to search by.
+   * @param string $ip Originating IP address.
+   * @param string $secret App secret.
+   * @return string Generated hash that can be used in a query.
+   */
+  public function generate_hash($term, $ip, $secret) {
+    return $this->generateHash($term, $ip, $secret);
   }
 
+  /**
+   * Constructs URL
+   *
+   * @access public
+   * @param string $type Type of search to run. Valid values are `fixChecksum`, `getMetadata`, `getEditions`, `hyphenate`, `to10`, and `to13`.
+   * @param string $issn ISBN being searched.
+   * @param array Options array. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
+   * @return string Generated URL for query.
+   */
   private function construct_url($type, $isbn, $options = null) {
     return $this->base_url . $isbn . '?method=' . $type . $this->set_options($options) . $this->ai;
   }
@@ -78,7 +177,7 @@ class xisbn extends xid {
    * Sets options passed by user.
    *
    * @access private
-   * @param array $options Options to use in search.
+   * @param array $options Options to use in search. Valid values include `format`, `callback`, `count`, `fl`, `hash`, `library`, `startIndex`, and `token`.
    * @return string Options formatted as URL parameters.
    * @throws OCLCException if `options` is not an array.
    */
