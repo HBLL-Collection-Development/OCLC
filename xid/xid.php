@@ -15,9 +15,12 @@ abstract class xid {
   const BASE_URL = '.worldcat.org/webservices/xid/';
   protected $ai;
 
-  abstract function getMetadata($isbn, $options);
-  abstract function getEditions($isbn, $options);
-  abstract function fixChecksum($isbn, $options);
+  abstract function getMetadata($term, $options);
+  abstract function get_metadata($term, $options);
+  abstract function getEditions($term, $options);
+  abstract function get_editions($term, $options);
+  abstract function generateHash($term, $ip, $secret);
+  abstract function generate_hash($term, $ip, $secret);
 
   /**
    * Sets the $ai class variable
@@ -31,6 +34,10 @@ abstract class xid {
     } else {
       $this->ai = '&ai=' . $ai;
     }
+  }
+
+  protected function create_hash($url, $term, $ip, $secret) {
+    return md5($url . $term . '|' . $ip . '|' . $secret);
   }
 
   protected function validate_format($format) {

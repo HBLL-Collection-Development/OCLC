@@ -125,7 +125,277 @@ $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 9. `token`: String. [Authentication token][11]. Default: `null`
 
 ### Known issues
-1. Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them one at a time.
+1. Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.
+
+## xISSN Usage
+
+### Minimal example
+
+```php
+<?php
+
+use OCLC\xid\xissn;
+
+try {
+  $xissn = new xissn;
+  $data  = $xissn->getMetadata('0036-8075');
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+
+print_r($data);
+
+?>
+```
+
+### Search methods
+
+1. `fixChecksum` or `fix_checksum`:
+
+   ```php
+   $xissn = new xissn;
+   $data1 = $xissn->fixChecksum('0036-8074');
+   $data2 = $xissn->fix_checksum('0036-8074');
+   ```
+
+2. `getMetadata` or `get_metadata`:
+
+   ```php
+   $xissn = new xissn;
+   $data1 = $xissn->getMetadata('0036-8075');
+   $data2 = $xissn->get_metadata('0036-8075');
+   ```
+
+3. `getEditions` or `get_editions`:
+
+   ```php
+   $xissn = new xissn;
+   $data1 = $xissn->getEditions('0036-8075');
+   $data2 = $xissn->get_editions('0036-8075');
+   ```
+
+4. `getForms` or `get_forms`:
+
+  ```php
+   $xissn = new xissn;
+   $data = $xissn->getForms('0036-8075');
+   $data = $xissn->get_forms('0036-8075');
+   ```
+
+5. `getHistory` or `get_history`:
+
+   ```php
+   $xissn = new xissn;
+   $data  = $xissn->getHistory('0036-8075');
+   $data  = $xissn->get_history('0036-8075');
+   ```
+
+6. `generateHash` or `generate_hash`:
+
+   ```php
+   $xissn = new xissn;
+   $data1 = $xissn->generateHash('{ ISSN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   $data2 = $xissn->generate_hash('{ ISSN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   ```
+
+### Options
+
+Options are included as an array after the search term. Example:
+
+```php
+$xissn   = new xissn;
+$options = array('format' => 'json', 'fl' => 'oclcnum,title');
+$data    = $xissn->getMetadata('0036-8075', $options);
+```
+
+1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
+2. `callback`: String. JSON callback. Default: `null`
+3. `fl`: String. Comma separated list of fields to return. Default: `*`
+    - `author`
+    - `city`
+    - `ed`
+    - `oclcnum`
+    - `form`
+    - `lang`
+    - `publisher`
+    - `title`
+    - `url`
+    - `year`
+4. `format`: String. Format to return the response in. Default: `xml`
+   - `csv`: Comma separated values
+   - `json`: JavaScript Object Notation
+   - `php`: PHP
+   - `python`: Python
+   - `ruby`: Ruby
+   - `txt`: Plain text
+   - `html`: XHTML
+   - `xml`: XML
+5. `hash`: String. [Authentication hash][11]. Default: `null`
+6. `token`: String. [Authentication token][11]. Default: `null`
+
+### Known issues
+1. Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.
+
+## xStandardNumber Usage
+
+### Minimal example
+
+```php
+<?php
+
+use OCLC\xid\xstandardnumber;
+
+try {
+  $xstandardnumber = new xstandardnumber;
+  $data  = $xstandardnumber->getMetadata('9780545010221');
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+
+print_r($data);
+
+?>
+```
+
+### Search methods
+
+1. `getEditions` or `get_editions`:
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getEditions('oclcnum', '154684429');
+   $data2 = $xstandardnumber->get_editions('oclcnum', '154684429');
+   ```
+
+2. `getEditionsByLccn` or `get_editions_by_lccn`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getEditionsByLccn('2004273129');
+   $data2 = $xstandardnumber->get_editions_by_lccn('2004273129');
+   ```
+
+3. `getEditionsByOclcNum` or `get_editions_by_oclc_num`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getEditionsByOclcNum('154684429');
+   $data2 = $xstandardnumber->get_editions_by_oclc_num('154684429');
+   ```
+
+4. `getEditionsByOwi` or `get_editions_by_owi`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getEditionsByOwi('owi67201841');
+   $data2 = $xstandardnumber->get_editions_by_owi('owi67201841');
+   ```
+
+5. `getMetadata` or `get_metadata`:
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getMetadata('owi', 'owi67201841');
+   $data2 = $xstandardnumber->get_metadata('owi', 'owi67201841');
+   ```
+
+6. `getMetadataByLccn` or `get_metadata_by_lccn`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getMetadataByLccn('2004273129');
+   $data2 = $xstandardnumber->get_metadata_by_lccn('2004273129');
+   ```
+
+7. `getMetadataByOclcNum` or `get_metadata_by_oclc_num`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getMetadataByOclcNum('154684429');
+   $data2 = $xstandardnumber->get_metadata_by_oclc_num('154684429');
+   ```
+
+8. `getMetadataByOwi` or `get_metadata_by_owi`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getMetadataByOwi('owi67201841');
+   $data2 = $xstandardnumber->get_metadata_by_owi('owi67201841');
+   ```
+
+9. `getVariants` or `get_variants`:
+
+  ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getVariants('080442957X');
+   $data2 = $xstandardnumber->get_variants('080442957X');
+   ```
+
+10. `getVariantsByLccn` or `get_variants_by_lccn`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getVariantsByLccn('2004273129');
+   $data2 = $xstandardnumber->get_variants_by_lccn('2004273129');
+   ```
+
+11. `getVariantsByOclcNum` or `get_variants_by_oclc_num`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getVariantsByOclcNum('154684429');
+   $data2 = $xstandardnumber->get_variants_by_oclc_num('154684429');
+   ```
+
+12. `getVariantsByOwi` or `get_variants_by_owi`
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->getVariantsByOwi('owi67201841');
+   $data2 = $xstandardnumber->get_variants_by_owi('owi67201841');
+   ```
+
+13. `generateHash` or `generate_hash`:
+
+   ```php
+   $xstandardnumber = new xstandardnumber;
+   $data1 = $xstandardnumber->generateHash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   $data2 = $xstandardnumber->generate_hash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
+   ```
+
+### Options
+
+Options are included as an array after the search term. Example:
+
+```php
+$xstandardnumber   = new xstandardnumber;
+$options = array('format' => 'json', 'fl' => 'lccn');
+$data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
+```
+
+1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
+2. `callback`: String. JSON callback. Default: `null`
+3. `fl`: String. Comma separated list of fields to return. Default: `*`
+    - `*`: All fields
+    - `lccn`
+    - `oclcnum`
+    - `owi`
+    - `presentOclcnum`
+    = `url`
+4. `format`: String. Format to return the response in. Default: `xml`
+   - `csv`: Comma separated values
+   - `json`: JavaScript Object Notation
+   - `php`: PHP
+   - `python`: Python
+   - `ruby`: Ruby
+   - `txt`: Plain text
+   - `html`: XHTML
+   - `xml`: XML
+5. `hash`: String. [Authentication hash][11]. Default: `null`
+6. `token`: String. [Authentication token][11]. Default: `null`
+
+### Known issues
+1. Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.
 
 ## OCLC Response Codes
 
