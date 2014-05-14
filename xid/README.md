@@ -1,8 +1,9 @@
 # Table of Contents
-1. [Introduction][13]
+1. [xID Introduction][13]
 1. [xISBN Usage][14]
 2. [xISSN Usage][15]
 3. [xStandardNumber Usage][16]
+4. [OCLC Response Codes][17]
 
 # xID
 [xID][1] allows you to submit an identifer, such as an ISBN, ISSN, or OCLC Number, and return a list of related identifiers and selected metadata.
@@ -435,3 +436,4 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 [14]: #xisbn-usage
 [15]: #xissn-usage
 [16]: #xstandardnumber-usage
+[17]: #oclc-response-codes
