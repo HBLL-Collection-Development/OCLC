@@ -1,4 +1,21 @@
 # PHP Library for [OCLC Web Services][1]
+
+## Installation
+1. Download the folder and place it in a readable location on your web server.
+2. Include `Autoloader.php` in your `PHP` files when you need to use the library.
+
+    ```php
+    <?php
+      require_once '/path/to/lib/OCLC/Autoloader.php';
+    ?>
+    ```
+
+## Usage
+
+- [Classify](Classify/README.md)
+- [xID](Xid/README.md)
+
+## About
 This library currently supports the following services:
 
 1. [Classify][2]: classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier.
@@ -11,18 +28,6 @@ I hope to include the following services in future updates:
 3. [WorldCat Recommender Service][6]: provides recommendations for books and other materials based on data in WorldCat.
 4. [WorldCat Registry][7]: access to information in the Worldcat Registry: a free global directory for libraries, consortia, archives and museums. (http://www.worldcat.org/registry/institutions)
 5. [WorldCat Search API][8]: access to WorldCat for bibliographic holdings and location data.
-
-## Installation
-1. Download the folder and place it in a readable location on your web server.
-2. Include `Autoloader.php` in your `PHP` files when you need to use the library.
-    ```php
-    require_once '/path/to/lib/OCLC/Autoloader.php';
-    ```
-
-## Usage
-
-- [Classify](Classify/README.md)
-- [xID](Xid/README.md)
 
 [1]: http://www.oclc.org/developer/develop/web-services.en.html
 [2]: http://www.oclc.org/content/developer/worldwide/en_us/develop/web-services/classify.html
