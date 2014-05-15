@@ -10,8 +10,8 @@
 
 namespace OCLC;
 
-class config {
-  // Store constants in config file so if things change with OCLC's APIs we only
+class Config {
+  // Store constants in Config file so if things change with OCLC's APIs we only
   // have to change one file.
 
   /****************************************
@@ -29,10 +29,14 @@ class config {
   const XID_BASE_URL      = '.worldcat.org/webservices/xid/';
   const XID_VALID_FLS     = 'author, city, ed, oclcnum, form, lang, publisher, title, url, year, *';
   const XID_VALID_FORMATS = 'csv, json, php, python, ruby, txt, html, xml';
+  /////////////////////////
   // xISBN
+  /////////////////////////
   const XID_XISBN_VALID_LIBRARIES = 'ebook, freebook, bookmooch, paperbackswap, wikipedia, oca, hathi';
   const XID_XISBN_VALID_OPTIONS   = 'format, callback, count, fl, hash, library, startIndex, token';
+  /////////////////////////
   // xISSN
+  /////////////////////////
   const XID_XISSN_VALID_OPTIONS = 'format, callback, fl, hash, token';
   // xStandardNumber
   const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token';

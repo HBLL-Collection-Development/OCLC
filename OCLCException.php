@@ -20,7 +20,7 @@ class OCLCException extends \Exception {
    * @param array $previous Previous exception
    */
   public function __construct($message, $code = 0, \Exception $previous = null) {
-    $message = "<pre>\nOCLCException: " . $message . "\n\n" . parent::getFile() . ' on line ' . parent::getLine() . "\n\n" . parent::getTraceAsString() . "\n</pre>";
+    $message = '<pre>OCLCException: ' . $message . "\n\n" . parent::getFile() . ' on line ' . parent::getLine() . "\n\n" . parent::getTraceAsString() . '</pre>';
     parent::__construct($message, $code, $previous);
   }
 }

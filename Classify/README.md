@@ -16,10 +16,10 @@
 ```php
 <?php
 
-use OCLC\classify\classify;
+use OCLC\Classify\Classify;
 
 try {
-  $classify = new classify;
+  $classify = new Classify;
   $data     = $classify->stdnbr('785871937');
 } catch (Exception $e) {
   echo $e->getMessage();
@@ -35,7 +35,7 @@ print_r($data);
 1. `stdnbr` or `standard_number`: The standard number (OCLC, ISBN, ISSN, UPC) number to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data1 = $classify->stdnbr('222654874');
    $data2 = $classify->standard_number('222654874');
    ```
@@ -43,96 +43,96 @@ print_r($data);
 2. `oclc`: The OCLC number to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->oclc('155131850');
    ```
 
 3. `isbn`: The ISBN to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->isbn('9780545010221');
    ```
 
 4. `issn`: The ISSN to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->issn('1531-4650');
    ```
 
 5. `upc`: The UPC code to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->upc('085392246724');
    ```
 
 6. `ident`: The FAST identifier to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->ident('01394255');
    ```
 
 7. `heading`: The FAST heading to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->heading("Harry Potter and the philosopher's stone (Rowling, J. K.)");
    ```
 
 8. `lccn`: [Library of Congress Control Number][2] (`2014-05-13`: call fails on OCLCs end)
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->lccn('99023982');
    ```
 
 9. `lccn_pfx`: [Library of Congress Control Number][2]—Prefix (`2014-05-13`: call fails on OCLCs end)
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->lccn_pfx('sh');
    ```
 
 10. `lccn_yr`: [Library of Congress Control Number][2]—Year (`2014-05-13`: call fails on OCLCs end)
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->lccn_yr('2014');
    ```
 11. `lccn_sno`: [Library of Congress Control Number][2]—Serial Number (`2014-05-13`: call fails on OCLCs end)
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->lccn_sno('023982');
    ```
 
 12. `swid`: The FRBR work identifier to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->swid('34195');
    ```
 
 13. `author`: The author name to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->author('rowling');
    ```
 14. `title`: The title to search for.
 
    ```php
-   $classify = new classify;
+   $classify = new Classify;
    $data = $classify->title('Harry Potter and the Chamber of Secrets');
    ```
 
 15. `multi`: Allows any combination of searche methods to be performed. Example:
 
   ```php
-  $classify = new classify;
+  $classify = new Classify;
   $multi    = array('author' => 'rowling', 'title' => 'harry potter');
   $data = $classify->multi($multi);
   ```
@@ -144,7 +144,7 @@ OCLC `OR`s all terms together when you include multiple search options.
 Options are included as an array after the search term(s). Example:
 
 ```php
-$classify = new classify;
+$classify = new Classify;
 $options  = array('summary' => true, 'maxRecs' => 5);
 $data = $classify->stdnbr('222654874', $options);
 ```
@@ -184,14 +184,14 @@ Multiple output formats are available in this library. If no format is specified
 Formats can be specified in two different ways:
 
 ```php
-$classify = new classify('json');
+$classify = new Classify('json');
 $data = $classify->stdnbr('222654874');
 ```
 
 OR
 
 ```php
-$classify = new classify;
+$classify = new Classify;
 $classify->set_format('json');
 $data = $classify->stdnbr('222654874');
 ```

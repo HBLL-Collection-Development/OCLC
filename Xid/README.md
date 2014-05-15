@@ -29,10 +29,10 @@ xID is really three different services: [xISBN][2], [xISSN][3], [xStandardNumber
 ```php
 <?php
 
-use OCLC\xid\xisbn;
+use OCLC\Xid\Xisbn;
 
 try {
-  $xisbn = new xisbn;
+  $xisbn = new Xisbn;
   $data  = $xisbn->getMetadata('9780545010221');
 } catch (Exception $e) {
   echo $e->getMessage();
@@ -48,7 +48,7 @@ print_r($data);
 1. `fixChecksum` or `fix_checksum`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->fixChecksum('0-8044-2957');
    $data2 = $xisbn->fix_checksum('0-8044-2957');
    ```
@@ -56,7 +56,7 @@ print_r($data);
 2. `getMetadata` or `get_metadata`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->getMetadata('0-8044-2957-X');
    $data2 = $xisbn->get_metadata('0-8044-2957-X');
    ```
@@ -64,7 +64,7 @@ print_r($data);
 3. `getEditions` or `get_editions`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->getEditions('0-8044-2957-X');
    $data2 = $xisbn->get_editions('0-8044-2957-X');
    ```
@@ -72,14 +72,14 @@ print_r($data);
 4. `hyphenate`:
 
   ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data  = $xisbn->hyphenate('080442957X');
    ```
 
 5. `to10` or `to_10`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->to10('978-0-8044-2957-3');
    $data2 = $xisbn->to_10('978-0-8044-2957-3');
    ```
@@ -87,7 +87,7 @@ print_r($data);
 6. `to13` or `to_13`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->to13('0-8044-2957X');
    $data2 = $xisbn->to_13('0-8044-2957X');
    ```
@@ -95,7 +95,7 @@ print_r($data);
 7. `generateHash` or `generate_hash`:
 
    ```php
-   $xisbn = new xisbn;
+   $xisbn = new Xisbn;
    $data1 = $xisbn->generateHash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    $data2 = $xisbn->generate_hash('{ ISBN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    ```
@@ -105,7 +105,7 @@ print_r($data);
 Options are included as an array after the search term. Example:
 
 ```php
-$xisbn   = new xisbn;
+$xisbn   = new Xisbn;
 $options = array('format' => 'json', 'fl' => 'oclcnum,author');
 $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 ```
@@ -156,10 +156,10 @@ $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 ```php
 <?php
 
-use OCLC\xid\xissn;
+use OCLC\Xid\Xissn;
 
 try {
-  $xissn = new xissn;
+  $xissn = new Xissn;
   $data  = $xissn->getMetadata('0036-8075');
 } catch (Exception $e) {
   echo $e->getMessage();
@@ -175,7 +175,7 @@ print_r($data);
 1. `fixChecksum` or `fix_checksum`:
 
    ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->fixChecksum('0036-8074');
    $data2 = $xissn->fix_checksum('0036-8074');
    ```
@@ -183,7 +183,7 @@ print_r($data);
 2. `getMetadata` or `get_metadata`:
 
    ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->getMetadata('0036-8075');
    $data2 = $xissn->get_metadata('0036-8075');
    ```
@@ -191,7 +191,7 @@ print_r($data);
 3. `getEditions` or `get_editions`:
 
    ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->getEditions('0036-8075');
    $data2 = $xissn->get_editions('0036-8075');
    ```
@@ -199,7 +199,7 @@ print_r($data);
 4. `getForms` or `get_forms`:
 
   ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->getForms('0036-8075');
    $data2 = $xissn->get_forms('0036-8075');
    ```
@@ -207,7 +207,7 @@ print_r($data);
 5. `getHistory` or `get_history`:
 
    ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->getHistory('0036-8075');
    $data2 = $xissn->get_history('0036-8075');
    ```
@@ -215,7 +215,7 @@ print_r($data);
 6. `generateHash` or `generate_hash`:
 
    ```php
-   $xissn = new xissn;
+   $xissn = new Xissn;
    $data1 = $xissn->generateHash('{ ISSN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    $data2 = $xissn->generate_hash('{ ISSN }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    ```
@@ -225,7 +225,7 @@ print_r($data);
 Options are included as an array after the search term. Example:
 
 ```php
-$xissn   = new xissn;
+$xissn   = new Xissn;
 $options = array('format' => 'json', 'fl' => 'oclcnum,title');
 $data    = $xissn->getMetadata('0036-8075', $options);
 ```
@@ -266,10 +266,10 @@ $data    = $xissn->getMetadata('0036-8075', $options);
 ```php
 <?php
 
-use OCLC\xid\xstandardnumber;
+use OCLC\Xid\XStandardNumber;
 
 try {
-  $xstandardnumber = new xstandardnumber;
+  $xstandardnumber = new XStandardNumber;
   $data = $xstandardnumber->getMetadata('9780545010221');
 } catch (Exception $e) {
   echo $e->getMessage();
@@ -285,7 +285,7 @@ print_r($data);
 1. `getEditions` or `get_editions`:
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getEditions('oclcnum', '154684429');
    $data2 = $xstandardnumber->get_editions('oclcnum', '154684429');
    ```
@@ -293,7 +293,7 @@ print_r($data);
 2. `getEditionsByLccn` or `get_editions_by_lccn`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getEditionsByLccn('2004273129');
    $data2 = $xstandardnumber->get_editions_by_lccn('2004273129');
    ```
@@ -301,7 +301,7 @@ print_r($data);
 3. `getEditionsByOclcNum` or `get_editions_by_oclc_num`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getEditionsByOclcNum('154684429');
    $data2 = $xstandardnumber->get_editions_by_oclc_num('154684429');
    ```
@@ -309,7 +309,7 @@ print_r($data);
 4. `getEditionsByOwi` or `get_editions_by_owi`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getEditionsByOwi('owi67201841');
    $data2 = $xstandardnumber->get_editions_by_owi('owi67201841');
    ```
@@ -317,7 +317,7 @@ print_r($data);
 5. `getMetadata` or `get_metadata`:
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getMetadata('owi', 'owi67201841');
    $data2 = $xstandardnumber->get_metadata('owi', 'owi67201841');
    ```
@@ -325,7 +325,7 @@ print_r($data);
 6. `getMetadataByLccn` or `get_metadata_by_lccn`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getMetadataByLccn('2004273129');
    $data2 = $xstandardnumber->get_metadata_by_lccn('2004273129');
    ```
@@ -333,7 +333,7 @@ print_r($data);
 7. `getMetadataByOclcNum` or `get_metadata_by_oclc_num`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getMetadataByOclcNum('154684429');
    $data2 = $xstandardnumber->get_metadata_by_oclc_num('154684429');
    ```
@@ -341,7 +341,7 @@ print_r($data);
 8. `getMetadataByOwi` or `get_metadata_by_owi`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getMetadataByOwi('owi67201841');
    $data2 = $xstandardnumber->get_metadata_by_owi('owi67201841');
    ```
@@ -349,7 +349,7 @@ print_r($data);
 9. `getVariants` or `get_variants`:
 
   ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getVariants('owi', 'owi67201841');
    $data2 = $xstandardnumber->get_variants('owi', 'owi67201841');
    ```
@@ -357,7 +357,7 @@ print_r($data);
 10. `getVariantsByLccn` or `get_variants_by_lccn`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getVariantsByLccn('2004273129');
    $data2 = $xstandardnumber->get_variants_by_lccn('2004273129');
    ```
@@ -365,7 +365,7 @@ print_r($data);
 11. `getVariantsByOclcNum` or `get_variants_by_oclc_num`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getVariantsByOclcNum('154684429');
    $data2 = $xstandardnumber->get_variants_by_oclc_num('154684429');
    ```
@@ -373,7 +373,7 @@ print_r($data);
 12. `getVariantsByOwi` or `get_variants_by_owi`
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->getVariantsByOwi('owi67201841');
    $data2 = $xstandardnumber->get_variants_by_owi('owi67201841');
    ```
@@ -381,7 +381,7 @@ print_r($data);
 13. `generateHash` or `generate_hash`:
 
    ```php
-   $xstandardnumber = new xstandardnumber;
+   $xstandardnumber = new XStandardNumber;
    $data1 = $xstandardnumber->generateHash('{ STANDARD NUMBER }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    $data2 = $xstandardnumber->generate_hash('{ STANDARD NUMBER }', '{ REQUEST IP ADDRESS }', '{ MY SECRET }');
    ```
@@ -391,7 +391,7 @@ print_r($data);
 Options are included as an array after the search term. Example:
 
 ```php
-$xstandardnumber = new xstandardnumber;
+$xstandardnumber = new XStandardNumber;
 $options = array('format' => 'json', 'fl' => 'lccn');
 $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 ```
