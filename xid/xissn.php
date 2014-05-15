@@ -4,7 +4,7 @@
   *
   * @link http://www.oclc.org/developer/develop/web-services/xid-api/xissn-resource.en.html
   * @author Jared Howland <oclc@jaredhowland.com>
-  * @version 2014-05-13
+  * @version 2014-05-14
   * @since 2014-05-13
   *
   */
@@ -13,7 +13,7 @@ namespace OCLC\xID;
 
 class xissn extends xid {
 
-  private $base_url;
+  protected $base_url;
 
   /**
    * Constructor. Sets WorldCat Affiliate ID if passed when instantiated.
@@ -23,7 +23,7 @@ class xissn extends xid {
    */
   public function __construct($ai = null) {
     parent::set_ai($ai);
-    $this->base_url = 'http://xissn' . parent::BASE_URL . 'issn/';
+    $this->base_url = 'http://xissn' . \OCLC\config::XID_BASE_URL . 'issn/';
   }
 
   /**
@@ -31,20 +31,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function fixChecksum($issn, $options = null) {
-    return file_get_contents($this->construct_url('fixChecksum', $issn, $options));
+    return $this->get_data(__FUNCTION__, $isbn, $options);
   }
-
-  /**
-   * Queries xISSN service using fixChecksum
-   *
-   * @access public
-   * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string|array Results of query
+    /**
+   * @see \OCLC\xid\xissn::fixChecksum()
    */
   public function fix_checksum($issn, $options = null) {
     return $this->fixChecksum($issn, $options);
@@ -55,20 +49,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getMetadata($issn, $options = null) {
-    return file_get_contents($this->construct_url('getMetadata', $issn, $options));
+    return $this->get_data(__FUNCTION__, $isbn, $options);
   }
-
-  /**
-   * Queries xISSN service using getMetadata
-   *
-   * @access public
-   * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string|array Results of query
+    /**
+   * @see \OCLC\xid\xissn::getMetadata()
    */
   public function get_metadata($issn, $options = null) {
     return $this->getMetadata($issn, $options);
@@ -79,20 +67,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getEditions($issn, $options = null) {
-    return file_get_contents($this->construct_url('getEditions', $issn, $options));
+    return $this->get_data(__FUNCTION__, $isbn, $options);
   }
-
-  /**
-   * Queries xISSN service using getEditions
-   *
-   * @access public
-   * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string|array Results of query
+    /**
+   * @see \OCLC\xid\xissn::getEditions()
    */
   public function get_editions($issn, $options = null) {
     return $this->getEditions($issn, $options);
@@ -103,20 +85,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getForms($issn, $options = null) {
-    return file_get_contents($this->construct_url('getForms', $issn, $options));
+    return $this->get_data(__FUNCTION__, $isbn, $options);
   }
-
-  /**
-   * Queries xISSN service using getForms
-   *
-   * @access public
-   * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string|array Results of query
+    /**
+   * @see \OCLC\xid\xissn::getForms()
    */
   public function get_forms($issn, $options = null) {
     return $this->getForms($issn, $options);
@@ -127,62 +103,31 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getHistory($issn, $options = null) {
-    return file_get_contents($this->construct_url('getHistory', $issn, $options));
+    return $this->get_data(__FUNCTION__, $isbn, $options);
   }
-
-  /**
-   * Queries xISSN service using getHistory
-   *
-   * @access public
-   * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string|array Results of query
+    /**
+   * @see \OCLC\xid\xissn::getHistory()
    */
   public function get_history($issn, $options = null) {
     return $this->getHistory($issn, $options);
   }
 
   /**
-   * Generates hash based on the number being searched, the originating IP address, and the app secret
+   * Grab the data from OCLC.
    *
-   * @access public
-   * @param string $term ISSN to search by.
-   * @param string $ip Originating IP address.
-   * @param string $secret App secret.
-   * @return string Generated hash that can be used in a query.
-   */
-  public function generateHash($term, $ip, $secret) {
-    return $this->create_hash($this->base_url, $term, $ip, $secret);
-  }
-
-  /**
-   * Generates hash based on the number being searched, the originating IP address, and the app secret
-   *
-   * @access public
-   * @param string $term ISSN to search by.
-   * @param string $ip Originating IP address.
-   * @param string $secret App secret.
-   * @return string Generated hash that can be used in a query.
-   */
-  public function generate_hash($term, $ip, $secret) {
-    return $this->generateHash($term, $ip, $secret);
-  }
-
-  /**
-   * Constructs URL
-   *
-   * @access public
-   * @param string $type Type of search to run. Valid values are `getMetadata`, `getEditions`, `fixChecksum`, `getForms`, and `getHistory`.
+   * @access private
+   * @param string $type Type of search to run. Valid values are `fixChecksum`, `getMetadata`, `getEditions`, `hyphenate`, `to10`, and `to13`.
    * @param string $issn ISSN being searched.
-   * @param array Options array. Valid values include `format`, `callback`, `fl`, `hash`, and `token`.
-   * @return string Generated URL for query.
+   * @param array Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @return string|array Results of query.
    */
-  private function construct_url($type, $issn, $options = null) {
-    return $this->base_url . $issn . '?method=' . $type . $this->set_options($options) . $this->ai;
+  private function get_data($type, $issn, $options = null) {
+    $url = $this->base_url . $issn . '?method=' . $type . $this->set_options($options) . $this->ai;
+    return file_get_contents($url);
   }
 
   /**
@@ -199,7 +144,7 @@ class xissn extends xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException("xISSN options must be passed as an array.\n\nValid values include `format`, `callback`, `fl`, `hash`, and `token`.");
+      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISSN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -214,27 +159,30 @@ class xissn extends xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      switch ($key) {
-        case 'format':
-          if($this->validate_format($value)) { $options_array['format'] = $value; }
-          break;
-        case 'fl':
-          if($this->validate_fls($value)) { $options_array['fl'] = $value; }
-          break;
-        case 'callback':
-          $options_array['callback'] = $value;
-          break;
-        case 'hash':
-          $options_array['hash'] = $value;
-          break;
-        case 'token':
-          $options_array['token'] = $value;
-          break;
-        default:
-          throw new \OCLC\OCLCException("Invalid search option used.\n\nValid values include `format`, `callback`, `fl`, `hash`, and `token`.");
-          break;
+      if(!in_array($key, $this->constant_to_array(\OCLC\config::XID_XISSN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISSN_VALID_OPTIONS) . '.');
+        return false;
+      } else {
+        switch ($key) {
+          case 'format':
+            if($this->validate_format($value)) { $options_array['format'] = $value; }
+            break;
+          case 'fl':
+            if($this->validate_fls($value)) { $options_array['fl'] = $value; }
+            break;
+          case 'callback':
+            $options_array['callback'] = $value;
+            break;
+          case 'hash':
+            $options_array['hash'] = $value;
+            break;
+          case 'token':
+            $options_array['token'] = $value;
+            break;
+        }
       }
     }
+    // Set default `fl` value if not present to be `*`.
     if(!$options_array['fl']) { $options_array['fl'] = '*'; }
     return $options_array;
   }

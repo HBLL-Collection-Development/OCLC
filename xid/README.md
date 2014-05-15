@@ -1,9 +1,21 @@
 # Table of Contents
-1. [xID Introduction][13]
-1. [xISBN Usage][14]
-2. [xISSN Usage][15]
-3. [xStandardNumber Usage][16]
-4. [OCLC Response Codes][17]
+1. [xID Introduction](#xid)
+2. [xISBN Usage](#xisbn-usage)
+   1. [Minimal example](#minimal-example)
+   2. [Search methods](#search-methods)
+   3. [Options](#options)
+   4. [Known issues](#known-issues)
+3. [xISSN Usage](#xissn-usage)
+   1. [Minimal example](#minimal-example-1)
+   2. [Search methods](#search-methods-1)
+   3. [Options](#options-1)
+   4. [Known issues](#known-issues-1)
+4. [xStandardNumber Usage](#xstandardnumber-usage)
+   1. [Minimal example](#minimal-example-2)
+   2. [Search methods](#search-methods-2)
+   3. [Options](#options-2)
+   4. [Known issues](#known-issues-2)
+5. [OCLC Response Codes](#oclc-response-codes)
 
 # xID
 [xID][1] allows you to submit an identifer, such as an ISBN, ISSN, or OCLC Number, and return a list of related identifiers and selected metadata.
@@ -61,21 +73,23 @@ print_r($data);
 
   ```php
    $xisbn = new xisbn;
-   $data = $xisbn->hyphenate('080442957X');
+   $data  = $xisbn->hyphenate('080442957X');
    ```
 
-5. `to10`:
+5. `to10` or `to_10`:
 
    ```php
    $xisbn = new xisbn;
-   $data  = $xisbn->to10('978-0-8044-2957-3');
+   $data1 = $xisbn->to10('978-0-8044-2957-3');
+   $data2 = $xisbn->to_10('978-0-8044-2957-3');
    ```
 
-6. `to13`:
+6. `to13` or `to_13`:
 
    ```php
    $xisbn = new xisbn;
-   $data = $xisbn->to13('0-8044-2957X');
+   $data1 = $xisbn->to13('0-8044-2957X');
+   $data2 = $xisbn->to_13('0-8044-2957X');
    ```
 
 7. `generateHash` or `generate_hash`:
@@ -100,17 +114,17 @@ $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 2. `callback`: String. JSON callback. Default: `null`
 4. `count`: Integer. Number of desired search results. Default: 1,000
 4. `fl`: String. Comma separated list of fields to return. Default: `*`
-    - `*`: all fields
-    - `author`
-    - `city`
-    - `ed`
-    - `oclcnum`
-    - `form`
-    - `lang`
-    - `publisher`
-    - `title`
-    - `url`
-    - `year`
+   - `*`: all fields
+   - `author`
+   - `city`
+   - `ed`
+   - `oclcnum`
+   - `form`
+   - `lang`
+   - `publisher`
+   - `title`
+   - `url`
+   - `year`
 5. `format`: String. Format to return the response in. Default: `xml`
    - `csv`: Comma separated values
    - `json`: JavaScript Object Notation
@@ -186,16 +200,16 @@ print_r($data);
 
   ```php
    $xissn = new xissn;
-   $data = $xissn->getForms('0036-8075');
-   $data = $xissn->get_forms('0036-8075');
+   $data1 = $xissn->getForms('0036-8075');
+   $data2 = $xissn->get_forms('0036-8075');
    ```
 
 5. `getHistory` or `get_history`:
 
    ```php
    $xissn = new xissn;
-   $data  = $xissn->getHistory('0036-8075');
-   $data  = $xissn->get_history('0036-8075');
+   $data1 = $xissn->getHistory('0036-8075');
+   $data2 = $xissn->get_history('0036-8075');
    ```
 
 6. `generateHash` or `generate_hash`:
@@ -219,17 +233,17 @@ $data    = $xissn->getMetadata('0036-8075', $options);
 1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
 2. `callback`: String. JSON callback. Default: `null`
 3. `fl`: String. Comma separated list of fields to return. Default: `*`
-    - `*`: all fields
-    - `author`
-    - `city`
-    - `ed`
-    - `oclcnum`
-    - `form`
-    - `lang`
-    - `publisher`
-    - `title`
-    - `url`
-    - `year`
+   - `*`: all fields
+   - `author`
+   - `city`
+   - `ed`
+   - `oclcnum`
+   - `form`
+   - `lang`
+   - `publisher`
+   - `title`
+   - `url`
+   - `year`
 4. `format`: String. Format to return the response in. Default: `xml`
    - `csv`: Comma separated values
    - `json`: JavaScript Object Notation
@@ -377,7 +391,7 @@ print_r($data);
 Options are included as an array after the search term. Example:
 
 ```php
-$xstandardnumber   = new xstandardnumber;
+$xstandardnumber = new xstandardnumber;
 $options = array('format' => 'json', 'fl' => 'lccn');
 $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 ```
@@ -385,12 +399,12 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 1. `ai`: String. [WorldCat Affiliate ID][12]. Default: `null`
 2. `callback`: String. JSON callback. Default: `null`
 3. `fl`: String. Comma separated list of fields to return. Default: `*`
-    - `*`: all fields
-    - `lccn`
-    - `oclcnum`
-    - `owi`
-    - `presentOclcnum`
-    = `url`
+   - `*`: all fields
+   - `lccn`
+   - `oclcnum`
+   - `owi`
+   - `presentOclcnum`
+   - `url`
 4. `format`: String. Format to return the response in. Default: `xml`
    - `csv`: Comma separated values
    - `json`: JavaScript Object Notation
@@ -416,7 +430,7 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 * `overlimit`: The quota (daily or cummulative) for the affiliate id or IP address has been exceeded.
 * `unknownField`: The request field is not supported.
 * `unknownFormat`: The request format is not supported.
-* `unknownId`: The request identifier looks like a valid ISBN, ISSN, OCLCNumber, LCCN, or OWI number and unknown to the service.
+* `unknownId`: The request identifier looks like a valid ISBN, ISSN, OCLC Number, LCCN, or OWI (OCLC Work ID) number and unknown to the service.
 * `unknownLibrary`: The request library is not supported.
 * `unknownMethod`: The request method is not supported.
 
@@ -432,8 +446,3 @@ $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 [10]: http://www.hathitrust.org/
 [11]: http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html
 [12]: https://www.worldcat.org/wcpa/do/AffiliateLogin
-[13]: #xid
-[14]: #xisbn-usage
-[15]: #xissn-usage
-[16]: #xstandardnumber-usage
-[17]: #oclc-response-codes
