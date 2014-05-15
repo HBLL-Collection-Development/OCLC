@@ -156,7 +156,7 @@ class Xisbn extends Xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -171,8 +171,8 @@ class Xisbn extends Xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::XID_XISBN_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISBN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
@@ -204,7 +204,7 @@ class Xisbn extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!@$options_array['fl']) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 
@@ -217,11 +217,11 @@ class Xisbn extends Xid {
    * @throws OCLCException if an invalid library selection is attempted.
    */
   private function validate_library($library) {
-    $valid_libraries = $this->constant_to_array(\OCLC\Config::XID_XISBN_VALID_LIBRARIES);
+    $valid_libraries = \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISBN_VALID_LIBRARIES);
     if(in_array($library, $valid_libraries)) {
       return true;
     } else {
-      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_LIBRARIES) . '.');
+      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_LIBRARIES) . '.');
       return false;
     }
   }

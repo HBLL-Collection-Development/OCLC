@@ -54,33 +54,6 @@ abstract class Xid {
   }
 
   /**
-   * Takes a comma-separated string and converts it to an array.
-   *
-   * @access public
-   * @param string $data Data to convert to an array.
-   * @return array $data as an array.
-   */
-  protected function constant_to_array($data) {
-    return array_map('trim', explode(',', $data));
-  }
-
-  /**
-   * Takes a comma-separated string and converts it to a formatted string.
-   *
-   * @access public
-   * @param string $data Data to convert to a formatted string.
-   * @return array $data as a formatted string (`csv, json, php' => `csv`, `json`, `php`)
-   */
-  protected function constant_to_string($data) {
-    $array  = array_map('trim', explode(',', $data));
-    $string = null;
-    foreach($array as $valid) {
-      $string .= '`' . $valid . '`, ';
-    }
-    return trim($string, ', ');
-  }
-
-  /**
    * Validates format options.
    *
    * @access private
@@ -89,10 +62,10 @@ abstract class Xid {
    * @throws OCLCException if an invalid format selection is attempted.
    */
   protected function validate_format($format) {
-    if(in_array($format, $this->constant_to_array(\OCLC\Config::XID_VALID_FORMATS))) {
+    if(in_array($format, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_VALID_FORMATS))) {
       return true;
     } else {
-      throw new \OCLC\OCLCException('Invalid `format`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_VALID_FORMATS) . '.');
+      throw new \OCLC\OCLCException('Invalid `format`. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_VALID_FORMATS) . '.');
       return false;
     }
   }
@@ -108,8 +81,8 @@ abstract class Xid {
   protected function validate_fls($fls) {
     $fl = explode(',', $fls);
     foreach($fl as $value) {
-      if(!in_array($value, $this->constant_to_array(\OCLC\Config::XID_VALID_FLS))) {
-        throw new \OCLC\OCLCException('Invalid `fl`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_VALID_FLS) . '.');
+      if(!in_array($value, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_VALID_FLS))) {
+        throw new \OCLC\OCLCException('Invalid `fl`. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_VALID_FLS) . '.');
         return false;
       }
     }

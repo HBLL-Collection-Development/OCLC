@@ -38,7 +38,9 @@ class Config {
   // xISSN
   /////////////////////////
   const XID_XISSN_VALID_OPTIONS = 'format, callback, fl, hash, token';
+  /////////////////////////
   // xStandardNumber
+  /////////////////////////
   const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token';
   const XID_XSTANDARD_NUMBER_VALID_FLS          = 'lccn, oclcnum, owi, presentOclcnum, url, *';
   const XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES = 'lccn, oclcnum, owi';

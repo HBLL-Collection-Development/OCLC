@@ -35,7 +35,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function fixChecksum($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::fixChecksum()
@@ -53,7 +53,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getMetadata($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getMetadata()
@@ -71,7 +71,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getEditions($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getEditions()
@@ -89,7 +89,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getForms($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getForms()
@@ -107,7 +107,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getHistory($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getHistory()
@@ -144,7 +144,7 @@ class Xissn extends Xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -159,8 +159,8 @@ class Xissn extends Xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::XID_XISSN_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISSN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
@@ -183,7 +183,7 @@ class Xissn extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!@$options_array['fl']) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 
