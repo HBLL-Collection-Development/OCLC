@@ -11,7 +11,7 @@
 
 namespace OCLC\Xid;
 
-class xisbn extends xid {
+class Xisbn extends Xid {
 
   protected $base_url;
 

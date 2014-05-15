@@ -11,7 +11,7 @@
 
 namespace OCLC\Xid;
 
-abstract class xid {
+abstract class Xid {
 
   protected $ai;
 
@@ -89,8 +89,7 @@ abstract class xid {
    * @throws OCLCException if an invalid format selection is attempted.
    */
   protected function validate_format($format) {
-    $valid_formats = array();
-    if(in_array($format, $valid_formats)) {
+    if(in_array($format, $this->constant_to_array(\OCLC\Config::XID_VALID_FORMATS))) {
       return true;
     } else {
       throw new \OCLC\OCLCException('Invalid `format`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_VALID_FORMATS) . '.');

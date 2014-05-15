@@ -11,7 +11,7 @@
 
 namespace OCLC\Classify;
 
-class classify {
+class Classify {
 
   private $format;
 

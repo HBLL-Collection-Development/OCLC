@@ -11,7 +11,7 @@
 
 namespace OCLC\Xid;
 
-class xstandardnumber extends xid {
+class XStandardNumber extends Xid {
 
   protected $base_url;
 
