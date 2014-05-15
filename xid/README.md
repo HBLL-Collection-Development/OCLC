@@ -29,7 +29,7 @@ xID is really three different services: [xISBN][2], [xISSN][3], [xStandardNumber
 ```php
 <?php
 
-use OCLC\xid\xisbn;
+use OCLC\Xid\Xisbn;
 
 try {
   $xisbn = new xisbn;
@@ -156,7 +156,7 @@ $data    = $xisbn->getMetadata('0-8044-2957x', $options);
 ```php
 <?php
 
-use OCLC\xid\xissn;
+use OCLC\Xid\Xissn;
 
 try {
   $xissn = new xissn;
@@ -266,7 +266,7 @@ $data    = $xissn->getMetadata('0036-8075', $options);
 ```php
 <?php
 
-use OCLC\xid\xstandardnumber;
+use OCLC\Xid\XStandardNumber;
 
 try {
   $xstandardnumber = new xstandardnumber;

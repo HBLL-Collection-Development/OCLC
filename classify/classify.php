@@ -9,7 +9,7 @@
   *
   */
 
-namespace OCLC\classify;
+namespace OCLC\Classify;
 
 class classify {
 
@@ -19,7 +19,7 @@ class classify {
    * Constructor. Sets format if it was given at instantiation of class
    *
    * @access public
-   * @param string $format Format type. Valid values are listed in \OCLC\config::CLASSIFY_VALID_FORMATS.
+   * @param string $format Format type. Valid values are listed in \OCLC\Config::CLASSIFY_VALID_FORMATS.
    */
   public function __construct($format = null) {
     $this->set_format($format);
@@ -29,21 +29,21 @@ class classify {
    * Sets the format
    *
    * @access public
-   * @param string $format Format type. Valid values are listed in \OCLC\config::CLASSIFY_VALID_FORMATS.
+   * @param string $format Format type. Valid values are listed in \OCLC\Config::CLASSIFY_VALID_FORMATS.
    * @throws OCLCException if invalid format is used
    */
   public function set_format($format = null) {
-    if(in_array($this->constant_to_array(\OCLC\config::CLASSIFY_VALID_FORMATS))) {
+    if(in_array($this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_FORMATS))) {
       $this->format = $format;
     } elseif(is_null($format)) {
       $this->format = 'php_array';
     } else {
-      throw new \OCLC\OCLCException('Invalid format. Valid formats include ' $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_FORMATS) . '.');
+      throw new \OCLC\OCLCException('Invalid format. Valid formats include ' $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_FORMATS) . '.');
     }
   }
 
   /**
-   * Runs \OCLC\classify::get_stdnbr() and retrieves search results
+   * Runs \OCLC\Classify::get_stdnbr() and retrieves search results
    *
    * @access public
    * @param string $stdnbr Search term.
@@ -54,14 +54,14 @@ class classify {
     return $this->get_stdnbr($stdnbr, $options);
   }
   /**
-   * @see \OCLC\classify::stdnbr()
+   * @see \OCLC\Classify::stdnbr()
    */
   public function standard_number($stdnbr, $options = null) {
     return $this->get_stdnbr($stdnbr, $options);
   }
 
   /**
-   * Runs \OCLC\classify::get_oclc() and retrieves search results
+   * Runs \OCLC\Classify::get_oclc() and retrieves search results
    *
    * @access public
    * @param string $oclc Search term.
@@ -73,7 +73,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_isbn() and retrieves search results
+   * Runs \OCLC\Classify::get_isbn() and retrieves search results
    *
    * @access public
    * @param string $isbn Search term.
@@ -85,7 +85,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_upc() and retrieves search results
+   * Runs \OCLC\Classify::get_upc() and retrieves search results
    *
    * @access public
    * @param string $upc Search term.
@@ -97,7 +97,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_ident() and retrieves search results
+   * Runs \OCLC\Classify::get_ident() and retrieves search results
    *
    * @access public
    * @param string $ident Search term.
@@ -109,7 +109,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_heading() and retrieves search results
+   * Runs \OCLC\Classify::get_heading() and retrieves search results
    *
    * @access public
    * @param string $heading Search term.
@@ -121,7 +121,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_lccn() and retrieves search results
+   * Runs \OCLC\Classify::get_lccn() and retrieves search results
    *
    * @access public
    * @param string $lccn Search term.
@@ -133,7 +133,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_lccn_pfx() and retrieves search results
+   * Runs \OCLC\Classify::get_lccn_pfx() and retrieves search results
    *
    * @access public
    * @param string $lccn_pfx Search term.
@@ -145,7 +145,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_lccn_yr() and retrieves search results
+   * Runs \OCLC\Classify::get_lccn_yr() and retrieves search results
    *
    * @access public
    * @param string $lccn_yr Search term.
@@ -157,7 +157,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_lccn_sno() and retrieves search results
+   * Runs \OCLC\Classify::get_lccn_sno() and retrieves search results
    *
    * @access public
    * @param string $lccn_sno Search term.
@@ -169,7 +169,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_swid() and retrieves search results
+   * Runs \OCLC\Classify::get_swid() and retrieves search results
    *
    * @access public
    * @param string $swid Search term.
@@ -181,7 +181,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_author() and retrieves search results
+   * Runs \OCLC\Classify::get_author() and retrieves search results
    *
    * @access public
    * @param string $author Search term.
@@ -193,7 +193,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_title() and retrieves search results
+   * Runs \OCLC\Classify::get_title() and retrieves search results
    *
    * @access public
    * @param string $title Search term.
@@ -205,7 +205,7 @@ class classify {
   }
 
   /**
-   * Runs \OCLC\classify::get_multi() and retrieves search results
+   * Runs \OCLC\Classify::get_multi() and retrieves search results
    *
    * @access public
    * @param array $array Search types and terms to use
@@ -217,104 +217,104 @@ class classify {
   }
 
   /**
-   * @see \OCLC\classify::stdnbr()
+   * @see \OCLC\Classify::stdnbr()
    */
   private function get_stdnbr($stdnbr, $options) {
     return $this->get_classify_data('stdnbr', $stdnbr, $options);
   }
 
   /**
-   * @see \OCLC\classify::oclc()
+   * @see \OCLC\Classify::oclc()
    */
   private function get_oclc($oclc, $options) {
     return $this->get_classify_data('oclc', $oclc, $options);
   }
 
   /**
-   * @see \OCLC\classify::isbn()
+   * @see \OCLC\Classify::isbn()
    */
   private function get_isbn($isbn, $options) {
     return $this->get_classify_data('isbn', $isbn, $options);
   }
 
   /**
-   * @see \OCLC\classify::upc()
+   * @see \OCLC\Classify::upc()
    */
   private function get_upc($upc, $options) {
     return $this->get_classify_data('upc', $upc, $options);
   }
 
   /**
-   * @see \OCLC\classify::ident()
+   * @see \OCLC\Classify::ident()
    */
   private function get_ident($ident, $options) {
     return $this->get_classify_data('ident', $ident, $options);
   }
 
   /**
-   * @see \OCLC\classify::heading()
+   * @see \OCLC\Classify::heading()
    */
   private function get_heading($heading, $options) {
     return $this->get_classify_data('heading', $heading, $options);
   }
 
   /**
-   * @see \OCLC\classify::lccn()
+   * @see \OCLC\Classify::lccn()
    */
   private function get_lccn($lccn, $options) {
     return $this->get_classify_data('lccn', $lccn, $options);
   }
 
   /**
-   * @see \OCLC\classify::lccn_pfx()
+   * @see \OCLC\Classify::lccn_pfx()
    */
   private function get_lccn_pfx($lccn_pfx, $options) {
     return $this->get_classify_data('lccn_pfx', $lccn_pfx, $options);
   }
 
   /**
-   * @see \OCLC\classify::lccn_yr()
+   * @see \OCLC\Classify::lccn_yr()
    */
   private function get_lccn_yr($lccn_yr, $options) {
     return $this->get_classify_data('lccn_yr', $lccn_yr, $options);
   }
 
   /**
-   * @see \OCLC\classify::lccn_sno()
+   * @see \OCLC\Classify::lccn_sno()
    */
   private function get_lccn_sno($lccn_sno, $options) {
     return $this->get_classify_data('lccn_sno', $lccn_sno, $options);
   }
 
   /**
-   * @see \OCLC\classify::swid()
+   * @see \OCLC\Classify::swid()
    */
   private function get_swid($swid, $options) {
     return $this->get_classify_data('swid', $swid, $options);
   }
 
   /**
-   * @see \OCLC\classify::author()
+   * @see \OCLC\Classify::author()
    */
   private function get_author($author, $options) {
     return $this->get_classify_data('author', $author, $options);
   }
 
   /**
-   * @see \OCLC\classify::title()
+   * @see \OCLC\Classify::title()
    */
   private function get_title($title, $options) {
     return $this->get_classify_data('title', $title, $options);
   }
 
   /**
-   * @see \OCLC\classify::multi()
+   * @see \OCLC\Classify::multi()
    */
   private function get_multi($search, $options) {
     if(is_array($search)) {
       return $this->get_classify_data('multi', $search, $options);
     } else {
-      throw new \OCLC\OCLCException('If you want to search multiple fields at once, the search terms must be placed in an array. Valid search fields include ' . $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_SEARCHES) . '.');
+      throw new \OCLC\OCLCException('If you want to search multiple fields at once, the search terms must be placed in an array. Valid search fields include ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES) . '.');
     }
   }
 
@@ -322,7 +322,7 @@ class classify {
    * Gets data from Classify service and returns it in format specified by $this->format()
    *
    * @access private
-   * @param string $type Search type. Valid values include are listed in \OCLC\config::CLASSIFY_VALID_SEARCHES.
+   * @param string $type Search type. Valid values include are listed in \OCLC\Config::CLASSIFY_VALID_SEARCHES.
    * @param string|array $search Search term(s) to use.
    * @param array $options Options to use in search.
    * @return string|object|array Search result from OCLC formatted per $this->format.
@@ -344,7 +344,7 @@ class classify {
    * Creates the correct search URL to be used to query the Classify service.
    *
    * @access private
-   * @param string $type Search type. Valid values are listed in \OCLC\config::CLASSIFY_VALID_SEARCHES
+   * @param string $type Search type. Valid values are listed in \OCLC\Config::CLASSIFY_VALID_SEARCHES
    * @param string|array $search Search term(s) to use.
    * @param array $options Options to use in search.
    * @return string Search URL.
@@ -371,7 +371,7 @@ class classify {
         throw new \OCLC\OCLCException($exception_message);
       }
     }
-    return \OCLC\config::CLASSIFY_BASE_URL . $search . $this->set_options($options);
+    return \OCLC\Config::CLASSIFY_BASE_URL . $search . $this->set_options($options);
   }
 
   /**
@@ -388,7 +388,7 @@ class classify {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('Classify options must be passed as an array. Valid options are ' . $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('Classify options must be passed as an array. Valid options are ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
     }
   }
 
@@ -402,8 +402,8 @@ class classify {
    */
   private function validate_search($search) {
     foreach($search as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\config::CLASSIFY_VALID_SEARCHES))) {
-        throw new \OCLC\OCLCException('Invalid search attempted. Valid search fields include ' $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_SEARCHES)'.');
+      if(!in_array($key, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_SEARCHES))) {
+        throw new \OCLC\OCLCException('Invalid search attempted. Valid search fields include ' $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES)'.');
       }
     }
     return $search;
@@ -420,8 +420,8 @@ class classify {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\config::CLASSIFY_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_OPTIONS) . '.');
+      if(!in_array($key, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
         return false;
       switch ($key) {
         case 'summary':
@@ -435,10 +435,10 @@ class classify {
           $options_array['maxRecs'] = (int) $value;
           break;
         case 'orderBy':
-          if(in_array($value, $this->constant_to_array(\OCLC\config::CLASSIFY_VALID_ORDER_BYS))) {
+          if(in_array($value, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS))) {
             $options_array['orderBy'] = $value;
           } else {
-            throw new \OCLC\OCLCException('Invalid orderBy value. Valid values are ' . $this->constant_to_string(\OCLC\config::CLASSIFY_VALID_ORDER_BYS) . '.');
+            throw new \OCLC\OCLCException('Invalid orderBy value. Valid values are ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS) . '.');
           }
           break;
         case 'startRec':

@@ -9,7 +9,7 @@
   *
   */
 
-namespace OCLC\xID;
+namespace OCLC\Xid;
 
 abstract class xid {
 
@@ -47,7 +47,7 @@ abstract class xid {
     return md5($this->base_url . $number . '|' . $ip . '|' . $secret);
   }
   /**
-   * @see \OCLC\xid::generateHash()
+   * @see \OCLC\Xid::generateHash()
    */
   public function generate_hash($number, $ip, $secret) {
     return $this->generateHash($number, $ip, $secret);
@@ -93,7 +93,7 @@ abstract class xid {
     if(in_array($format, $valid_formats)) {
       return true;
     } else {
-      throw new \OCLC\OCLCException('Invalid `format`. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_VALID_FORMATS) . '.');
+      throw new \OCLC\OCLCException('Invalid `format`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_VALID_FORMATS) . '.');
       return false;
     }
   }
@@ -109,8 +109,8 @@ abstract class xid {
   protected function validate_fls($fls) {
     $fl = explode(',', $fls);
     foreach($fl as $value) {
-      if(!in_array($value, $this->constant_to_array(\OCLC\config::XID_VALID_FLS))) {
-        throw new \OCLC\OCLCException('Invalid `fl`. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_VALID_FLS) . '.');
+      if(!in_array($value, $this->constant_to_array(\OCLC\Config::XID_VALID_FLS))) {
+        throw new \OCLC\OCLCException('Invalid `fl`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_VALID_FLS) . '.');
         return false;
       }
     }

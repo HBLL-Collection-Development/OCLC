@@ -16,7 +16,7 @@
 ```php
 <?php
 
-use OCLC\classify\classify;
+use OCLC\Classify\Classify;
 
 try {
   $classify = new classify;

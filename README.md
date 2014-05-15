@@ -19,12 +19,12 @@ I hope to include the following services in future updates:
 
 ## Installation
 1. Download the folder and include it in your application's directory.
-2. Include desired classes, `OCLCException.php`, and `config.php` in any file you want to access the service from.
+2. Include desired classes, `OCLCException.php`, and `Config.php` in any file you want to access the service from.
     - Alternatively, you can use `spl_autoload_register` to automatically load the library into your application. For example, let's say your directory structure looks as follows:
 
     ```
     .
-    +-- config.php
+    +-- Config.php
     +-- index.php
     +-- libs
     |   +-- OCLC
@@ -32,7 +32,7 @@ I hope to include the following services in future updates:
     |   |   +-- …
     ```
 
-    - Place the following in your application's config file to be included in all your application files:
+    - Place the following in your application's Config file to be included in all your application files:
 
     ```php
     function autoload_libs($class_name) {

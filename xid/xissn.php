@@ -9,7 +9,7 @@
   *
   */
 
-namespace OCLC\xID;
+namespace OCLC\Xid;
 
 class xissn extends xid {
 
@@ -23,7 +23,7 @@ class xissn extends xid {
    */
   public function __construct($ai = null) {
     parent::set_ai($ai);
-    $this->base_url = 'http://xissn' . \OCLC\config::XID_BASE_URL . 'issn/';
+    $this->base_url = 'http://xissn' . \OCLC\Config::XID_BASE_URL . 'issn/';
   }
 
   /**
@@ -31,14 +31,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function fixChecksum($issn, $options = null) {
     return $this->get_data(__FUNCTION__, $isbn, $options);
   }
     /**
-   * @see \OCLC\xid\xissn::fixChecksum()
+   * @see \OCLC\Xid\Xissn::fixChecksum()
    */
   public function fix_checksum($issn, $options = null) {
     return $this->fixChecksum($issn, $options);
@@ -49,14 +49,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getMetadata($issn, $options = null) {
     return $this->get_data(__FUNCTION__, $isbn, $options);
   }
     /**
-   * @see \OCLC\xid\xissn::getMetadata()
+   * @see \OCLC\Xid\Xissn::getMetadata()
    */
   public function get_metadata($issn, $options = null) {
     return $this->getMetadata($issn, $options);
@@ -67,14 +67,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getEditions($issn, $options = null) {
     return $this->get_data(__FUNCTION__, $isbn, $options);
   }
     /**
-   * @see \OCLC\xid\xissn::getEditions()
+   * @see \OCLC\Xid\Xissn::getEditions()
    */
   public function get_editions($issn, $options = null) {
     return $this->getEditions($issn, $options);
@@ -85,14 +85,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getForms($issn, $options = null) {
     return $this->get_data(__FUNCTION__, $isbn, $options);
   }
     /**
-   * @see \OCLC\xid\xissn::getForms()
+   * @see \OCLC\Xid\Xissn::getForms()
    */
   public function get_forms($issn, $options = null) {
     return $this->getForms($issn, $options);
@@ -103,14 +103,14 @@ class xissn extends xid {
    *
    * @access public
    * @param string $issn ISSN to search by.
-   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getHistory($issn, $options = null) {
     return $this->get_data(__FUNCTION__, $isbn, $options);
   }
     /**
-   * @see \OCLC\xid\xissn::getHistory()
+   * @see \OCLC\Xid\Xissn::getHistory()
    */
   public function get_history($issn, $options = null) {
     return $this->getHistory($issn, $options);
@@ -122,7 +122,7 @@ class xissn extends xid {
    * @access private
    * @param string $type Type of search to run. Valid values are `fixChecksum`, `getMetadata`, `getEditions`, `hyphenate`, `to10`, and `to13`.
    * @param string $issn ISSN being searched.
-   * @param array Options array. Valid values are listed in \OCLC\config::XID_XISSN_VALID_OPTIONS.
+   * @param array Options array. Valid values are listed in \OCLC\Config::XID_XISSN_VALID_OPTIONS.
    * @return string|array Results of query.
    */
   private function get_data($type, $issn, $options = null) {
@@ -144,7 +144,7 @@ class xissn extends xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISSN_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -159,8 +159,8 @@ class xissn extends xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\config::XID_XISSN_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISSN_VALID_OPTIONS) . '.');
+      if(!in_array($key, $this->constant_to_array(\OCLC\Config::XID_XISSN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
