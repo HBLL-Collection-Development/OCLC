@@ -13,9 +13,6 @@ namespace OCLC\xID;
 
 class xisbn extends xid {
 
-  const VALID_OPTIONS   = 'format, callback, count, fl, hash, library, startIndex, token';
-  const VALID_LIBRARIES = 'ebook, freebook, bookmooch, paperbackswap, wikipedia, oca, hathi';
-
   protected $base_url;
 
   /**
@@ -34,7 +31,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function fixChecksum($isbn, $options = null) {
@@ -52,7 +49,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getMetadata($isbn, $options = null) {
@@ -70,7 +67,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function getEditions($isbn, $options = null) {
@@ -88,7 +85,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function hyphenate($isbn, $options = null) {
@@ -100,7 +97,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function to10($isbn, $options = null) {
@@ -118,7 +115,7 @@ class xisbn extends xid {
    *
    * @access public
    * @param string $isbn ISBN to search by.
-   * @param array $options Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query
    */
   public function to13($isbn, $options = null) {
@@ -137,7 +134,7 @@ class xisbn extends xid {
    * @access private
    * @param string $type Type of search to run. Valid values are `fixChecksum`, `getMetadata`, `getEditions`, `hyphenate`, `to10`, and `to13`.
    * @param string $isbn ISBN being searched.
-   * @param array Options array. Valid values are listed in self::VALID_OPTIONS.
+   * @param array Options array. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string|array Results of query.
    */
   private function get_data($type, $isbn, $options = null) {
@@ -149,7 +146,7 @@ class xisbn extends xid {
    * Sets options passed by user.
    *
    * @access private
-   * @param array $options Options to use in search. Valid values are listed in self::VALID_OPTIONS.
+   * @param array $options Options to use in search. Valid values are listed in \OCLC\config::XID_XISBN_VALID_OPTIONS.
    * @return string Options formatted as URL parameters.
    * @throws OCLCException if `options` is not an array.
    */
@@ -159,7 +156,7 @@ class xisbn extends xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . $this->constant_to_string(self::VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISBN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -174,8 +171,8 @@ class xisbn extends xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(self::VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(self::VALID_OPTIONS) . '.');
+      if(!in_array($key, $this->constant_to_array(\OCLC\config::XID_XISBN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISBN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
@@ -215,16 +212,16 @@ class xisbn extends xid {
    * Validates library options.
    *
    * @access private
-   * @param string $library Library to search. Valid values are listed in self::VALID_LIBRARIES.
+   * @param string $library Library to search. Valid values are listed in \OCLC\config::XID_XISBN_VALID_LIBRARIES.
    * @return bool TRUE if valid, FALSE otherwise
    * @throws OCLCException if an invalid library selection is attempted.
    */
   private function validate_library($library) {
-    $valid_libraries = $this->constant_to_array(self::VALID_LIBRARIES);
+    $valid_libraries = $this->constant_to_array(\OCLC\config::XID_XISBN_VALID_LIBRARIES);
     if(in_array($library, $valid_libraries)) {
       return true;
     } else {
-      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . $this->constant_to_string(self::VALID_LIBRARIES) . '.');
+      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . $this->constant_to_string(\OCLC\config::XID_XISBN_VALID_LIBRARIES) . '.');
       return false;
     }
   }

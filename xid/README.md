@@ -391,7 +391,7 @@ print_r($data);
 Options are included as an array after the search term. Example:
 
 ```php
-$xstandardnumber   = new xstandardnumber;
+$xstandardnumber = new xstandardnumber;
 $options = array('format' => 'json', 'fl' => 'lccn');
 $data    = $xstandardnumber->getMetadataByOclcNum('154684429', $options);
 ```

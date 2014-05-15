@@ -1,3 +1,11 @@
+# Table of Contents
+1. [Classify](#classify)
+   1. [Minimal example](#minimal-example)
+   2. [Search methods](#search-methods)
+   3. [Options](#options)
+   4. [Formats](#formats)
+   5. [OCLC Response Codes](#oclc-response-codes)
+
 # Classify
 [Classify][1] allows you to classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier. One use case is a set of eBooks without a call number. You can use the Classify service to look up the call number for those books. Currently, this is an experimental OCLC service.
 
@@ -131,7 +139,7 @@ print_r($data);
 
 OCLC `OR`s all terms together when you include multiple search options.
 
-#### Options
+### Options
 
 Options are included as an array after the search term(s). Example:
 
@@ -162,7 +170,7 @@ $data = $classify->stdnbr('222654874', $options);
     - `type asc` (FAST subject type, ascending)
     - `type desc` (FAST subject type, descending)
 
-#### Formats
+### Formats
 
 Normally, `format` would be included in the options array but Classify only returns `XML` so I have created a special call for different formats. If OCLC ever includes different formats as a default option, I will incorporate it into the options.
 
@@ -188,7 +196,7 @@ $classify->set_format('json');
 $data = $classify->stdnbr('222654874');
 ```
 
-#### OCLC Response Codes
+### OCLC Response Codes
 
 * `0`: Success. Single-work summary response provided.
 * `2`: Success. Single-work detail response provided.
