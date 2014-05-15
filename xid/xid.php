@@ -4,7 +4,7 @@
   *
   * @link http://www.oclc.org/developer/develop/web-services/xid-api.en.html
   * @author Jared Howland <oclc@jaredhowland.com>
-  * @version 2014-05-13
+  * @version 2014-05-14
   * @since 2014-05-12
   *
   */

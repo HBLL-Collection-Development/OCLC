@@ -2,7 +2,7 @@
 The library currently supports the following services:
 
 1. [Classify][2]: classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier.
-2. [xID API][13] (partial support): submit an identifer such as an ISBN, ISSN, or OCLC Number to this service, and it returns a list of related identifiers and selected metadata.
+2. [xID API][13]: submit an identifer such as an ISBN, ISSN, or OCLC Number to this service, and it returns a list of related identifiers and selected metadata.
 
 I hope to include the following services in future updates:
 
@@ -19,7 +19,7 @@ I hope to include the following services in future updates:
 
 ## Installation
 1. Download the folder and include it in your application's directory.
-2. Include desired classes and `OCLCException.php` in any file you want to access the service from.
+2. Include desired classes, `OCLCException.php`, and `config.php` in any file you want to access the service from.
     - Alternatively, you can use `spl_autoload_register` to automatically load the library into your application. For example, let's say your directory structure looks as follows:
 
     ```
@@ -32,7 +32,7 @@ I hope to include the following services in future updates:
     |   |   +-- …
     ```
 
-    - Place the following in your config file to be included in all your application files:
+    - Place the following in your application's config file to be included in all your application files:
 
     ```php
     function autoload_libs($class_name) {
