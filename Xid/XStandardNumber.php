@@ -266,6 +266,7 @@ class XStandardNumber extends Xid {
    */
   private function get_data($type, $number_type, $number, $options = null) {
     $url = $this->base_url . $number_type . '/' . $number . '?method=' . $type . $this->set_options($options) . $this->ai;
+    echo $url;die();
     return file_get_contents($url);
   }
 
@@ -322,7 +323,7 @@ class XStandardNumber extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!@$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!array_key_exists('fl', $options_array)) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 

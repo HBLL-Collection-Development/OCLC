@@ -28,7 +28,7 @@ abstract class Xid {
    */
   public function set_ai($ai = null) {
     if(is_null($ai)) {
-      $ai = null;
+      $this->ai = null;
     } else {
       $this->ai = '&ai=' . $ai;
     }

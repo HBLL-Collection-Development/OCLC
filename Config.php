@@ -15,6 +15,11 @@ class Config {
   // have to change one file.
 
   /****************************************
+   *           COMMON CONSTANTS           *
+   ****************************************/
+   const OCLC_VALID_SERVICES = 'Classify, Xisbn, Xissn, XStandardNumber';
+
+  /****************************************
    *          CLASSIFY CONSTANTS          *
    ****************************************/
    const CLASSIFY_BASE_URL        = 'http://classify.oclc.org/classify2/Classify?';

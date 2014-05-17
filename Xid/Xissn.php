@@ -183,7 +183,7 @@ class Xissn extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!@$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!array_key_exists('fl', $options_array)) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 
