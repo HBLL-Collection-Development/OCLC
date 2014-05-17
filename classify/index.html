@@ -1,48 +1,87 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>PHP Library for OCLC Web Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+</head>
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<body>
 
-    <title>OCLC Web Services Library by jaredhowland</title>
-  </head>
 
-  <body>
-    <header>
-      <div class="inner">
-        <h1>OCLC Web Services Library</h1>
-        <h2>PHP library to access OCLC web services</h2>
-        <a href="https://github.com/jaredhowland/OCLC" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+<header>
+  <h1>OCLC Web Services Library</h1>
+  <a href="https://github.com/jaredhowland/OCLC" class="icon-github" title="View on Github"></a>
+  <div class="hidden"><a href="#content" title="Skip to content">Skip to content</a></div>
+  <nav>
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><span class="active" title="You're here.">Classify</span></li>
+        <li><a href="../xid/">xID</a></li>
+      </ul>
+  </nav>
+</header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <div id="wrapper">
+
+<section class="content">
+    
+    <article>
+        <p><a name="table-of-contents"></a></p>
+
+<h1>Table of Contents</h1>
+
+<ol>
+<li>
+<a href="#classify">Classify</a>
+
+<ol>
+<li><a href="#minimal-example">Minimal example</a></li>
+<li><a href="#search-methods">Search methods</a></li>
+<li><a href="#options">Options</a></li>
+<li><a href="#formats">Formats</a></li>
+<li><a href="#oclc-response-codes">OCLC Response Codes</a></li>
+</ol>
+</li>
+</ol>
+
+
+<p><a name="classify"></a></p>
+
 <h1>Classify</h1>
 
 <p><a href="http://www.oclc.org/content/developer/worldwide/en_us/develop/web-services/classify.html">Classify</a> allows you to classify books, videos, CDs and other materials based on identifier: ISBN, OCLC Number, UPC, ISSN, title, author, FAST headings, or FRBR work identifier. One use case is a set of eBooks without a call number. You can use the Classify service to look up the call number for those books. Currently, this is an experimental OCLC service.</p>
 
+<p><a name="usage"></a></p>
+
 <h2>Usage</h2>
+
+<p><a name="minimal-example"></a></p>
 
 <h3>Minimal example</h3>
 
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-<span class="k">use</span> <span class="nx">OCLC\classify\classify</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">OCLC\Classify\Classify</span><span class="p">;</span>
 
 <span class="k">try</span> <span class="p">{</span>
-  <span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+  <span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
   <span class="nv">$data</span>     <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'785871937'</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
@@ -52,6 +91,10 @@
 
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="search-methods"></a></p>
 
 <h3>Search methods</h3>
 
@@ -59,120 +102,224 @@
 <li>
 <p><code>stdnbr</code> or <code>standard_number</code>: The standard number (OCLC, ISBN, ISSN, UPC) number to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
 <span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">standard_number</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>oclc</code>: The OCLC number to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">oclc</span><span class="p">(</span><span class="s1">'155131850'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>isbn</code>: The ISBN to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">isbn</span><span class="p">(</span><span class="s1">'9780545010221'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>issn</code>: The ISSN to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">issn</span><span class="p">(</span><span class="s1">'1531-4650'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>upc</code>: The UPC code to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">upc</span><span class="p">(</span><span class="s1">'085392246724'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>ident</code>: The FAST identifier to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">ident</span><span class="p">(</span><span class="s1">'01394255'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>heading</code>: The FAST heading to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">heading</span><span class="p">(</span><span class="s2">"Harry Potter and the philosopher's stone (Rowling, J. K.)"</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>lccn</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a> (<code>2014-05-13</code>: call fails on OCLCs end)</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn</span><span class="p">(</span><span class="s1">'99023982'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>lccn_pfx</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Prefix (<code>2014-05-13</code>: call fails on OCLCs end)</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_pfx</span><span class="p">(</span><span class="s1">'sh'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>lccn_yr</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Year (<code>2014-05-13</code>: call fails on OCLCs end)</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_yr</span><span class="p">(</span><span class="s1">'2014'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>lccn_sno</code>: <a href="http://www.loc.gov/marc/lccn_structure.html">Library of Congress Control Number</a>—Serial Number (<code>2014-05-13</code>: call fails on OCLCs end)</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">lccn_sno</span><span class="p">(</span><span class="s1">'023982'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>swid</code>: The FRBR work identifier to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">swid</span><span class="p">(</span><span class="s1">'34195'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>author</code>: The author name to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">author</span><span class="p">(</span><span class="s1">'rowling'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>title</code>: The title to search for.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">(</span><span class="s1">'Harry Potter and the Chamber of Secrets'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
 <li>
 <p><code>multi</code>: Allows any combination of searche methods to be performed. Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$multi</span>    <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'author'</span> <span class="o">=&gt;</span> <span class="s1">'rowling'</span><span class="p">,</span> <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'harry potter'</span><span class="p">);</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">multi</span><span class="p">(</span><span class="nv">$multi</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 </li>
-</ol><p>OCLC <code>OR</code>s all terms together when you include multiple search options.</p>
+</ol>
 
-<h4>Options</h4>
+
+<p>OCLC <code>OR</code>s all terms together when you include multiple search options.</p>
+
+<p><a name="options"></a></p>
+
+<h3>Options</h3>
 
 <p>Options are included as an array after the search term(s). Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$options</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'summary'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span> <span class="s1">'maxRecs'</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">);</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 
 <ol>
 <li>
@@ -219,7 +366,12 @@
 <code>type desc</code> (FAST subject type, descending)</li>
 </ul>
 </li>
-</ol><h4>Formats</h4>
+</ol>
+
+
+<p><a name="formats"></a></p>
+
+<h3>Formats</h3>
 
 <p>Normally, <code>format</code> would be included in the options array but Classify only returns <code>XML</code> so I have created a special call for different formats. If OCLC ever includes different formats as a default option, I will incorporate it into the options.</p>
 
@@ -231,20 +383,38 @@
 <li><code>php_object</code></li>
 <li>
 <code>php_array</code> (default)</li>
-</ol><p>Formats can be specified in two different ways:</p>
+</ol>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
+
+<p>Formats can be specified in two different ways:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 
 <p>OR</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">classify</span><span class="p">;</span>
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
 <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">set_format</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
 </pre></div>
+</td>
+</tr></table></code></pre>
 
-<h4>OCLC Response Codes</h4>
+<p><a name="oclc-response-codes"></a></p>
+
+<h3>OCLC Response Codes</h3>
 
 <ul>
 <li>
@@ -262,26 +432,18 @@
 <li>
 <code>200</code>: Unexpected error.</li>
 </ul>
-</div>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/jaredhowland/OCLC/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/jaredhowland/OCLC/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/jaredhowland/OCLC"></a> is maintained by <a href="https://github.com/jaredhowland">jaredhowland</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
 
 
-  </body>
+    </article>
+    
+</section>
+
+<footer class="icon-github">
+  <p><a href="https://github.com/jaredhowland/OCLC">View project on GitHub</a></p>
+  <p>Download:</p>
+  <p><a href="https://github.com/jaredhowland/OCLC/zipball/master">.zip</a> or <a href="https://github.com/jaredhowland/OCLC/tarball/master">.tar.gz</a></p>
+</footer>
+
+
+</body>
 </html>

@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>PHP Library for OCLC Web Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+</head>
+
+<body>
+
+
+<header>
+  <h1>OCLC Web Services Library</h1>
+  <a href="https://github.com/jaredhowland/OCLC" class="icon-github" title="View on Github"></a>
+  <div class="hidden"><a href="#content" title="Skip to content">Skip to content</a></div>
+  <nav>
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../classify/">Classify</a></li>
+        <li><span class="active" title="You're here.">xID</span></li>
+      </ul>
+  </nav>
+</header>
+
+
+<section class="content">
+    
+    <article>
+        <p><a name="table-of-contents"></a></p>
+
+<h1>Table of Contents</h1>
+
+<ol>
+<li><a href="#xid">xID Introduction</a></li>
+<li>
+<a href="#xisbn-usage">xISBN Usage</a>
+
+<ol>
+<li><a href="#minimal-example">Minimal example</a></li>
+<li><a href="#search-methods">Search methods</a></li>
+<li><a href="#options">Options</a></li>
+<li><a href="#known-issues">Known issues</a></li>
+</ol>
+</li>
+<li>
+<a href="#xissn-usage">xISSN Usage</a>
+
+<ol>
+<li><a href="#minimal-example-1">Minimal example</a></li>
+<li><a href="#search-methods-1">Search methods</a></li>
+<li><a href="#options-1">Options</a></li>
+<li><a href="#known-issues-1">Known issues</a></li>
+</ol>
+</li>
+<li>
+<a href="#xstandardnumber-usage">xStandardNumber Usage</a>
+
+<ol>
+<li><a href="#minimal-example-2">Minimal example</a></li>
+<li><a href="#search-methods-2">Search methods</a></li>
+<li><a href="#options-2">Options</a></li>
+<li><a href="#known-issues-2">Known issues</a></li>
+</ol>
+</li>
+<li><a href="#oclc-response-codes">OCLC Response Codes</a></li>
+</ol>
+
+
+<p><a name="xid"></a></p>
+
+<h1>xID</h1>
+
+<p><a href="http://www.oclc.org/developer/develop/web-services/xid-api.en.html">xID</a> allows you to submit an identifer, such as an ISBN, ISSN, or OCLC Number, and return a list of related identifiers and selected metadata.</p>
+
+<p>xID is really three different services: <a href="http://www.oclc.org/developer/develop/web-services/xid-api/xisbn-resource.en.html">xISBN</a>, <a href="http://www.oclc.org/developer/develop/web-services/xid-api/xissn-resource.en.html">xISSN</a>, <a href="http://www.oclc.org/developer/develop/web-services/xid-api/xstandardNumber-resource.en.html">xStandardNumber</a>.</p>
+
+<p><a name="xisbn-usage"></a></p>
+
+<h2>xISBN Usage</h2>
+
+<p><a name="minimal-example"></a></p>
+
+<h3>Minimal example</h3>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\Xid\Xisbn</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+  <span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'9780545010221'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="search-methods"></a></p>
+
+<h3>Search methods</h3>
+
+<ol>
+<li>
+<p><code>fixChecksum</code> or <code>fix_checksum</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">fixChecksum</span><span class="p">(</span><span class="s1">'0-8044-2957'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">fix_checksum</span><span class="p">(</span><span class="s1">'0-8044-2957'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadata</code> or <code>get_metadata</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0-8044-2957-X'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">get_metadata</span><span class="p">(</span><span class="s1">'0-8044-2957-X'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getEditions</code> or <code>get_editions</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getEditions</span><span class="p">(</span><span class="s1">'0-8044-2957-X'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">get_editions</span><span class="p">(</span><span class="s1">'0-8044-2957-X'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>hyphenate</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">hyphenate</span><span class="p">(</span><span class="s1">'080442957X'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>to10</code> or <code>to_10</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">to10</span><span class="p">(</span><span class="s1">'978-0-8044-2957-3'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">to_10</span><span class="p">(</span><span class="s1">'978-0-8044-2957-3'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>to13</code> or <code>to_13</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">to13</span><span class="p">(</span><span class="s1">'0-8044-2957X'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">to_13</span><span class="p">(</span><span class="s1">'0-8044-2957X'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>generateHash</code> or <code>generate_hash</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">generateHash</span><span class="p">(</span><span class="s1">'{ ISBN }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">generate_hash</span><span class="p">(</span><span class="s1">'{ ISBN }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+</ol>
+
+
+<p><a name="options"></a></p>
+
+<h3>Options</h3>
+
+<p>Options are included as an array after the search term. Example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span>   <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">,</span> <span class="s1">'fl'</span> <span class="o">=&gt;</span> <span class="s1">'oclcnum,author'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0-8044-2957x'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<ol>
+<li>
+<code>ai</code>: String. <a href="https://www.worldcat.org/wcpa/do/AffiliateLogin">WorldCat Affiliate ID</a>. Default: <code>null</code>
+</li>
+<li>
+<code>callback</code>: String. JSON callback. Default: <code>null</code>
+</li>
+<li>
+<code>count</code>: Integer. Number of desired search results. Default: 1,000</li>
+<li>
+<code>fl</code>: String. Comma separated list of fields to return. Default: <code>*</code>
+
+<ul>
+<li>
+<code>*</code>: all fields</li>
+<li><code>author</code></li>
+<li><code>city</code></li>
+<li><code>ed</code></li>
+<li><code>oclcnum</code></li>
+<li><code>form</code></li>
+<li><code>lang</code></li>
+<li><code>publisher</code></li>
+<li><code>title</code></li>
+<li><code>url</code></li>
+<li><code>year</code></li>
+</ul>
+</li>
+<li>
+<code>format</code>: String. Format to return the response in. Default: <code>xml</code>
+
+<ul>
+<li>
+<code>csv</code>: Comma separated values</li>
+<li>
+<code>json</code>: JavaScript Object Notation</li>
+<li>
+<code>php</code>: PHP</li>
+<li>
+<code>python</code>: Python</li>
+<li>
+<code>ruby</code>: Ruby</li>
+<li>
+<code>txt</code>: Plain text</li>
+<li>
+<code>html</code>: XHTML</li>
+<li>
+<code>xml</code>: XML</li>
+</ul>
+</li>
+<li>
+<code>hash</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication hash</a>. Default: <code>null</code>
+</li>
+<li>
+<code>library</code>: String. Limit search scope to a particular library’s holdings. Default: <code>null</code>
+
+<ul>
+<li>
+<code>ebook</code>: ebooks based on OCLC NJ’s <a href="http://nj.oclc.org/uhf/about.html">UHF Holdings Database</a>
+</li>
+<li>
+<code>freebook</code>: free ebooks based on OCLC NJ’s <a href="http://nj.oclc.org/uhf/about.html">UHF Holdings Database</a>
+</li>
+<li>
+<code>bookmooch</code>: <a href="http://www.bookmooch.com/">Bookmooch’s</a> inventory</li>
+<li>
+<code>paperbackswap</code>: <a href="http://www.paperbackswap.com/">Paperbackswap’s</a> inventory</li>
+<li>
+<code>wikipedia</code>: works that appear in <a href="https://www.wikipedia.org/">Wikipedia</a>
+</li>
+<li>
+<code>oca</code>: <a href="http://www.archive.org/">Open Content Alliance</a> holdings</li>
+<li>
+<code>hathi</code>: <a href="http://www.hathitrust.org/">Hathi Trust</a> holdings</li>
+</ul>
+</li>
+<li>
+<code>startIndex</code>: Integer. The index of the first search result desired. Default: 0</li>
+<li>
+<code>token</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication token</a>. Default: <code>null</code>
+</li>
+</ol>
+
+
+<p><a name="known-issues"></a></p>
+
+<h3>Known issues</h3>
+
+<ol>
+<li>Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.</li>
+</ol>
+
+
+<p><a name="xissn-usage"></a></p>
+
+<h2>xISSN Usage</h2>
+
+<p><a name="minimal-example-1"></a></p>
+
+<h3>Minimal example</h3>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\Xid\Xissn</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+  <span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="search-methods-1"></a></p>
+
+<h3>Search methods</h3>
+
+<ol>
+<li>
+<p><code>fixChecksum</code> or <code>fix_checksum</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">fixChecksum</span><span class="p">(</span><span class="s1">'0036-8074'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">fix_checksum</span><span class="p">(</span><span class="s1">'0036-8074'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadata</code> or <code>get_metadata</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">get_metadata</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getEditions</code> or <code>get_editions</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getEditions</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">get_editions</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getForms</code> or <code>get_forms</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getForms</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">get_forms</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getHistory</code> or <code>get_history</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getHistory</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">get_history</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>generateHash</code> or <code>generate_hash</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">generateHash</span><span class="p">(</span><span class="s1">'{ ISSN }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">generate_hash</span><span class="p">(</span><span class="s1">'{ ISSN }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<a name="options-1"></a>
+
+<h3>Options</h3>
+</li>
+</ol>
+
+
+<p>Options are included as an array after the search term. Example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xissn</span>   <span class="o">=</span> <span class="k">new</span> <span class="nx">Xissn</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">,</span> <span class="s1">'fl'</span> <span class="o">=&gt;</span> <span class="s1">'oclcnum,title'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$xissn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0036-8075'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<ol>
+<li>
+<code>ai</code>: String. <a href="https://www.worldcat.org/wcpa/do/AffiliateLogin">WorldCat Affiliate ID</a>. Default: <code>null</code>
+</li>
+<li>
+<code>callback</code>: String. JSON callback. Default: <code>null</code>
+</li>
+<li>
+<code>fl</code>: String. Comma separated list of fields to return. Default: <code>*</code>
+
+<ul>
+<li>
+<code>*</code>: all fields</li>
+<li><code>author</code></li>
+<li><code>city</code></li>
+<li><code>ed</code></li>
+<li><code>oclcnum</code></li>
+<li><code>form</code></li>
+<li><code>lang</code></li>
+<li><code>publisher</code></li>
+<li><code>title</code></li>
+<li><code>url</code></li>
+<li><code>year</code></li>
+</ul>
+</li>
+<li>
+<code>format</code>: String. Format to return the response in. Default: <code>xml</code>
+
+<ul>
+<li>
+<code>csv</code>: Comma separated values</li>
+<li>
+<code>json</code>: JavaScript Object Notation</li>
+<li>
+<code>php</code>: PHP</li>
+<li>
+<code>python</code>: Python</li>
+<li>
+<code>ruby</code>: Ruby</li>
+<li>
+<code>txt</code>: Plain text</li>
+<li>
+<code>html</code>: XHTML</li>
+<li>
+<code>xml</code>: XML</li>
+</ul>
+</li>
+<li>
+<code>hash</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication hash</a>. Default: <code>null</code>
+</li>
+<li>
+<code>token</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication token</a>. Default: <code>null</code>
+</li>
+</ol>
+
+
+<p><a name="known-issues-1"></a></p>
+
+<h3>Known issues</h3>
+
+<ol>
+<li>Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.</li>
+</ol>
+
+
+<p><a name="xstandardnumber-usage"></a></p>
+
+<h2>xStandardNumber Usage</h2>
+
+<p><a name="minimal-example-2"></a></p>
+
+<h3>Minimal example</h3>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\Xid\XStandardNumber</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+  <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'9780545010221'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="search-methods-2"></a></p>
+
+<h3>Search methods</h3>
+
+<ol>
+<li>
+<p><code>getEditions</code> or <code>get_editions</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getEditions</span><span class="p">(</span><span class="s1">'oclcnum'</span><span class="p">,</span> <span class="s1">'154684429'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_editions</span><span class="p">(</span><span class="s1">'oclcnum'</span><span class="p">,</span> <span class="s1">'154684429'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getEditionsByLccn</code> or <code>get_editions_by_lccn</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getEditionsByLccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_editions_by_lccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getEditionsByOclcNum</code> or <code>get_editions_by_oclc_num</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getEditionsByOclcNum</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_editions_by_oclc_num</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getEditionsByOwi</code> or <code>get_editions_by_owi</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getEditionsByOwi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_editions_by_owi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadata</code> or <code>get_metadata</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'owi'</span><span class="p">,</span> <span class="s1">'owi67201841'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_metadata</span><span class="p">(</span><span class="s1">'owi'</span><span class="p">,</span> <span class="s1">'owi67201841'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadataByLccn</code> or <code>get_metadata_by_lccn</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadataByLccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_metadata_by_lccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadataByOclcNum</code> or <code>get_metadata_by_oclc_num</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadataByOclcNum</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_metadata_by_oclc_num</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getMetadataByOwi</code> or <code>get_metadata_by_owi</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadataByOwi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_metadata_by_owi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getVariants</code> or <code>get_variants</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getVariants</span><span class="p">(</span><span class="s1">'owi'</span><span class="p">,</span> <span class="s1">'owi67201841'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_variants</span><span class="p">(</span><span class="s1">'owi'</span><span class="p">,</span> <span class="s1">'owi67201841'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getVariantsByLccn</code> or <code>get_variants_by_lccn</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getVariantsByLccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_variants_by_lccn</span><span class="p">(</span><span class="s1">'2004273129'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getVariantsByOclcNum</code> or <code>get_variants_by_oclc_num</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getVariantsByOclcNum</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_variants_by_oclc_num</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>getVariantsByOwi</code> or <code>get_variants_by_owi</code></p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getVariantsByOwi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">get_variants_by_owi</span><span class="p">(</span><span class="s1">'owi67201841'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+<li>
+<p><code>generateHash</code> or <code>generate_hash</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$data1</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">generateHash</span><span class="p">(</span><span class="s1">'{ STANDARD NUMBER }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+<span class="nv">$data2</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">generate_hash</span><span class="p">(</span><span class="s1">'{ STANDARD NUMBER }'</span><span class="p">,</span> <span class="s1">'{ REQUEST IP ADDRESS }'</span><span class="p">,</span> <span class="s1">'{ MY SECRET }'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+</ol>
+
+
+<p><a name="options-2"></a></p>
+
+<h3>Options</h3>
+
+<p>Options are included as an array after the search term. Example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">,</span> <span class="s1">'fl'</span> <span class="o">=&gt;</span> <span class="s1">'lccn'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadataByOclcNum</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<ol>
+<li>
+<code>ai</code>: String. <a href="https://www.worldcat.org/wcpa/do/AffiliateLogin">WorldCat Affiliate ID</a>. Default: <code>null</code>
+</li>
+<li>
+<code>callback</code>: String. JSON callback. Default: <code>null</code>
+</li>
+<li>
+<code>fl</code>: String. Comma separated list of fields to return. Default: <code>*</code>
+
+<ul>
+<li>
+<code>*</code>: all fields</li>
+<li><code>lccn</code></li>
+<li><code>oclcnum</code></li>
+<li><code>owi</code></li>
+<li><code>presentOclcnum</code></li>
+<li><code>url</code></li>
+</ul>
+</li>
+<li>
+<code>format</code>: String. Format to return the response in. Default: <code>xml</code>
+
+<ul>
+<li>
+<code>csv</code>: Comma separated values</li>
+<li>
+<code>json</code>: JavaScript Object Notation</li>
+<li>
+<code>php</code>: PHP</li>
+<li>
+<code>python</code>: Python</li>
+<li>
+<code>ruby</code>: Ruby</li>
+<li>
+<code>txt</code>: Plain text</li>
+<li>
+<code>html</code>: XHTML</li>
+<li>
+<code>xml</code>: XML</li>
+</ul>
+</li>
+<li>
+<code>hash</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication hash</a>. Default: <code>null</code>
+</li>
+<li>
+<code>token</code>: String. <a href="http://www.oclc.org/developer/develop/web-services/xid-api/authentication.en.html">Authentication token</a>. Default: <code>null</code>
+</li>
+</ol>
+
+
+<p><a name="known-issues-2"></a></p>
+
+<h3>Known issues</h3>
+
+<ol>
+<li>Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.</li>
+</ol>
+
+
+<p><a name="oclc-response-codes"></a></p>
+
+<h2>OCLC Response Codes</h2>
+
+<ul>
+<li>
+<code>invalidAffiliateId</code>: Invalid affiliate id.</li>
+<li>
+<code>invalidHash</code>: Invalid hash.</li>
+<li>
+<code>invalidId</code>: The request identifier is not valid.</li>
+<li>
+<code>invalidToken</code>: Invalid token.</li>
+<li>
+<code>ok</code>: A valid request.</li>
+<li>
+<code>overlimit</code>: The quota (daily or cummulative) for the affiliate id or IP address has been exceeded.</li>
+<li>
+<code>unknownField</code>: The request field is not supported.</li>
+<li>
+<code>unknownFormat</code>: The request format is not supported.</li>
+<li>
+<code>unknownId</code>: The request identifier looks like a valid ISBN, ISSN, OCLC Number, LCCN, or OWI (OCLC Work ID) number and unknown to the service.</li>
+<li>
+<code>unknownLibrary</code>: The request library is not supported.</li>
+<li>
+<code>unknownMethod</code>: The request method is not supported.</li>
+</ul>
+
+
+    </article>
+    
+</section>
+
+<footer class="icon-github">
+  <p><a href="https://github.com/jaredhowland/OCLC">View project on GitHub</a></p>
+  <p>Download:</p>
+  <p><a href="https://github.com/jaredhowland/OCLC/zipball/master">.zip</a> or <a href="https://github.com/jaredhowland/OCLC/tarball/master">.tar.gz</a></p>
+</footer>
+
+
+</body>
+</html>
