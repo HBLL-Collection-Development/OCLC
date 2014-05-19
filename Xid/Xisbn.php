@@ -21,8 +21,8 @@ class Xisbn extends Xid {
    * @access public
    * @param string $ai WorldCat Affiliate ID.
    */
-  public function __construct($ai = null) {
-    parent::set_ai($ai);
+  public function __construct($auth_type = null, $auth_params = null) {
+    \OCLC\OCLC::__construct($auth_type, $auth_params);
     $this->base_url = 'http://xisbn' . \OCLC\Config::XID_BASE_URL . 'isbn/';
   }
 
@@ -138,7 +138,10 @@ class Xisbn extends Xid {
    * @return string|array Results of query.
    */
   private function get_data($type, $isbn, $options = null) {
-    $url = $this->base_url . $isbn . '?method=' . $type . $this->set_options($options) . $this->ai;
+    if($this->auth_type == 'token') {
+      $this->generate_hash($isbn, $this->ip, $this->secret);
+    }
+    $url = $this->base_url . $isbn . '?method=' . $type . $this->set_options($options) . $this->auth;
     return file_get_contents($url);
   }
 
@@ -156,7 +159,7 @@ class Xisbn extends Xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISBN options must be passed as an array. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -171,8 +174,8 @@ class Xisbn extends Xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::XID_XISBN_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISBN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
@@ -204,7 +207,7 @@ class Xisbn extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!array_key_exists('fl', $options_array)) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 
@@ -217,11 +220,11 @@ class Xisbn extends Xid {
    * @throws OCLCException if an invalid library selection is attempted.
    */
   private function validate_library($library) {
-    $valid_libraries = $this->constant_to_array(\OCLC\Config::XID_XISBN_VALID_LIBRARIES);
+    $valid_libraries = \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISBN_VALID_LIBRARIES);
     if(in_array($library, $valid_libraries)) {
       return true;
     } else {
-      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISBN_VALID_LIBRARIES) . '.');
+      throw new \OCLC\OCLCException('Invalid `library`. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISBN_VALID_LIBRARIES) . '.');
       return false;
     }
   }

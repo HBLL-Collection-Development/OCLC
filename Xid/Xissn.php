@@ -21,8 +21,8 @@ class Xissn extends Xid {
    * @access public
    * @param string $ai WorldCat Affiliate ID.
    */
-  public function __construct($ai = null) {
-    parent::set_ai($ai);
+  public function __construct($auth_type = null, $auth_params = null) {
+    \OCLC\OCLC::__construct($auth_type, $auth_params);
     $this->base_url = 'http://xissn' . \OCLC\Config::XID_BASE_URL . 'issn/';
   }
 
@@ -35,7 +35,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function fixChecksum($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::fixChecksum()
@@ -53,7 +53,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getMetadata($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getMetadata()
@@ -71,7 +71,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getEditions($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getEditions()
@@ -89,7 +89,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getForms($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getForms()
@@ -107,7 +107,7 @@ class Xissn extends Xid {
    * @return string|array Results of query
    */
   public function getHistory($issn, $options = null) {
-    return $this->get_data(__FUNCTION__, $isbn, $options);
+    return $this->get_data(__FUNCTION__, $issn, $options);
   }
     /**
    * @see \OCLC\Xid\Xissn::getHistory()
@@ -126,7 +126,10 @@ class Xissn extends Xid {
    * @return string|array Results of query.
    */
   private function get_data($type, $issn, $options = null) {
-    $url = $this->base_url . $issn . '?method=' . $type . $this->set_options($options) . $this->ai;
+    if($this->auth_type == 'token') {
+      $this->generate_hash($isbn, $this->ip, $this->secret);
+    }
+    $url = $this->base_url . $issn . '?method=' . $type . $this->set_options($options) . $this->auth;
     return file_get_contents($url);
   }
 
@@ -144,7 +147,7 @@ class Xissn extends Xid {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('xISSN options must be passed as an array. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
     }
   }
 
@@ -159,8 +162,8 @@ class Xissn extends Xid {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::XID_XISSN_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XISSN_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XISSN_VALID_OPTIONS) . '.');
         return false;
       } else {
         switch ($key) {
@@ -183,7 +186,7 @@ class Xissn extends Xid {
       }
     }
     // Set default `fl` value if not present to be `*`.
-    if(!$options_array['fl']) { $options_array['fl'] = '*'; }
+    if(!array_key_exists('fl', $options_array)) { $options_array['fl'] = '*'; }
     return $options_array;
   }
 

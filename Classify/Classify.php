@@ -11,7 +11,7 @@
 
 namespace OCLC\Classify;
 
-class Classify {
+class Classify extends \OCLC\OCLC {
 
   private $format;
 
@@ -33,12 +33,12 @@ class Classify {
    * @throws OCLCException if invalid format is used
    */
   public function set_format($format = null) {
-    if(in_array($this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_FORMATS))) {
+    if(in_array($format, \OCLC\OCLC::constant_to_array(\OCLC\Config::CLASSIFY_VALID_FORMATS))) {
       $this->format = $format;
     } elseif(is_null($format)) {
       $this->format = 'php_array';
     } else {
-      throw new \OCLC\OCLCException('Invalid format. Valid formats include ' $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_FORMATS) . '.');
+      throw new \OCLC\OCLCException('Invalid format. Valid formats include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_FORMATS) . '.');
     }
   }
 
@@ -314,7 +314,7 @@ class Classify {
     if(is_array($search)) {
       return $this->get_classify_data('multi', $search, $options);
     } else {
-      throw new \OCLC\OCLCException('If you want to search multiple fields at once, the search terms must be placed in an array. Valid search fields include ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES) . '.');
+      throw new \OCLC\OCLCException('If you want to search multiple fields at once, the search terms must be placed in an array. Valid search fields include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES) . '.');
     }
   }
 
@@ -330,13 +330,20 @@ class Classify {
   private function get_classify_data($type, $search, $options) {
     $url = $this->get_search_url($type, $search, $options);
     switch ($this->format) {
-      case 'xml':        return file_get_contents($url); break;
-      case 'json':       return json_encode(simplexml_load_file(urlencode($url))); break;
-      case 'php_object': return simplexml_load_file(urlencode($url)); break;
-      // Quick and dirty XML to PHP array solution
-      // Possible better solution for future: http://www.lalit.org/lab/convert-xml-to-array-in-php-xml2array/
-      case 'php_array':  return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
-      default:           return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
+      case 'xml':
+        header ('Content-Type: text/xml; charset=utf-8');
+        return file_get_contents($url); break;
+      case 'json':
+        header ('Content-Type: application/json; charset=utf-8');
+        return json_encode(simplexml_load_file(urlencode($url))); break;
+      case 'php_object':
+        return simplexml_load_file(urlencode($url)); break;
+      case 'php_array':
+        // Quick and dirty XML to PHP array solution
+        // Possible better solution for future: http://www.lalit.org/lab/convert-xml-to-array-in-php-xml2array/
+        return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
+      default:
+        return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
     }
   }
 
@@ -388,7 +395,7 @@ class Classify {
     } elseif(is_array($options)) {
       return '&' . http_build_query($this->validate_options($options));
     } else {
-      throw new \OCLC\OCLCException('Classify options must be passed as an array. Valid options are ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
+      throw new \OCLC\OCLCException('Classify options must be passed as an array. Valid options are ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
     }
   }
 
@@ -402,8 +409,8 @@ class Classify {
    */
   private function validate_search($search) {
     foreach($search as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_SEARCHES))) {
-        throw new \OCLC\OCLCException('Invalid search attempted. Valid search fields include ' $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES)'.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::CLASSIFY_VALID_SEARCHES))) {
+        throw new \OCLC\OCLCException('Invalid search attempted. Valid search fields include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_SEARCHES) . '.');
       }
     }
     return $search;
@@ -420,30 +427,32 @@ class Classify {
   private function validate_options($options) {
     $options_array = null;
     foreach($options as $key => $value) {
-      if(!in_array($key, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_OPTIONS))) {
-        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
+      if(!in_array($key, \OCLC\OCLC::constant_to_array(\OCLC\Config::CLASSIFY_VALID_OPTIONS))) {
+        throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_OPTIONS) . '.');
         return false;
-      switch ($key) {
-        case 'summary':
-          if((bool) $value) {
-            $options_array['summary'] = 'true';
-          } else {
-            $options_array['summary'] = 'false';
-          }
-          break;
-        case 'maxRecs':
-          $options_array['maxRecs'] = (int) $value;
-          break;
-        case 'orderBy':
-          if(in_array($value, $this->constant_to_array(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS))) {
-            $options_array['orderBy'] = $value;
-          } else {
-            throw new \OCLC\OCLCException('Invalid orderBy value. Valid values are ' . $this->constant_to_string(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS) . '.');
-          }
-          break;
-        case 'startRec':
-          $options_array['startRec'] = (int) $value;
-          break;
+      } else {
+        switch ($key) {
+          case 'summary':
+            if((bool) $value) {
+              $options_array['summary'] = 'true';
+            } else {
+              $options_array['summary'] = 'false';
+            }
+            break;
+          case 'maxRecs':
+            $options_array['maxRecs'] = (int) $value;
+            break;
+          case 'orderBy':
+            if(in_array($value, \OCLC\OCLC::constant_to_array(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS))) {
+              $options_array['orderBy'] = $value;
+            } else {
+              throw new \OCLC\OCLCException('Invalid orderBy value. Valid values are ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::CLASSIFY_VALID_ORDER_BYS) . '.');
+            }
+            break;
+          case 'startRec':
+            $options_array['startRec'] = (int) $value;
+            break;
+        }
       }
     }
     return $options_array;

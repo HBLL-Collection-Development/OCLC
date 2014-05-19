@@ -15,6 +15,12 @@ class Config {
   // have to change one file.
 
   /****************************************
+   *           COMMON CONSTANTS           *
+   ****************************************/
+   const OCLC_VALID_SERVICES   = 'Classify, Xisbn, Xissn, XStandardNumber';
+   const OCLC_VALID_AUTH_TYPES = 'ip, token, wskey';
+
+  /****************************************
    *          CLASSIFY CONSTANTS          *
    ****************************************/
    const CLASSIFY_BASE_URL        = 'http://classify.oclc.org/classify2/Classify?';
@@ -38,8 +44,10 @@ class Config {
   // xISSN
   /////////////////////////
   const XID_XISSN_VALID_OPTIONS = 'format, callback, fl, hash, token';
+  /////////////////////////
   // xStandardNumber
-  const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token';
+  /////////////////////////
+  const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token, type';
   const XID_XSTANDARD_NUMBER_VALID_FLS          = 'lccn, oclcnum, owi, presentOclcnum, url, *';
   const XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES = 'lccn, oclcnum, owi';
 }
