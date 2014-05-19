@@ -40,6 +40,7 @@
 <li><a href="#minimal-example">Minimal example</a></li>
 <li><a href="#search-methods">Search methods</a></li>
 <li><a href="#options">Options</a></li>
+<li><a href="#authentication">Authentication</a></li>
 <li><a href="#known-issues">Known issues</a></li>
 </ol>
 </li>
@@ -63,6 +64,8 @@
 <li><a href="#known-issues-2">Known issues</a></li>
 </ol>
 </li>
+<li><a href="#batch-searching">Batch Searching</a></li>
+<li><a href="#authentication">Authentication</a></li>
 <li><a href="#oclc-response-codes">OCLC Response Codes</a></li>
 </ol>
 
@@ -591,7 +594,7 @@
 
 <span class="k">try</span> <span class="p">{</span>
   <span class="nv">$xstandardnumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XStandardNumber</span><span class="p">;</span>
-  <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'9780545010221'</span><span class="p">);</span>
+  <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$xstandardnumber</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'oclcnum'</span><span class="p">,</span> <span class="s1">'154684429'</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
 <span class="p">}</span>
@@ -881,6 +884,257 @@
 
 <ol>
 <li>Options can only be set in bulk by passing an array when you call a method. It would be nice to be able to set them individually.</li>
+</ol>
+
+
+<p><a name="batch-searching"></a></p>
+
+<h2>Batch Searching</h2>
+
+<p>You can use any of the methods above to perform a batch search for a set of data.</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'option1'</span> <span class="o">=&gt;</span> <span class="s1">'option1_value'</span><span class="p">);</span>
+<span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'ISBN-1'</span><span class="p">,</span> <span class="s1">'ISBN-2'</span><span class="p">,</span> <span class="s1">'ISBN-3'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'{service_type}'</span><span class="p">,</span> <span class="s1">'{method_name}'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>Minimal example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+  <span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'1118027078'</span><span class="p">,</span> <span class="s1">'1455728969'</span><span class="p">,</span> <span class="s1">'0872899349'</span><span class="p">);</span>
+  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">);</span>
+  <span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'XIsbn'</span><span class="p">,</span> <span class="s1">'getMetadata'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<h3>Exception</h3>
+
+<p>One exception is when you want to run an <code>XStandardNumber</code> search with any of the following methods:
+<code>getEditions</code>, <code>getMetadata</code>, or <code>getVariants</code>. If you want to run any of those in batch mode, you must include <code>type</code> in the options. Valid values for <code>type</code> include <code>oclcnum</code>, <code>owi</code>, and <code>lccn</code>:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+  <span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'154684429'</span><span class="p">,</span> <span class="s1">'198765401'</span><span class="p">);</span>
+  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">,</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'oclcnum'</span><span class="p">);</span>
+  <span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'XStandardNumber'</span><span class="p">,</span> <span class="s1">'getVariants'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="authentication"></a></p>
+
+<h2>Authentication</h2>
+
+<p>OCLC offers two options for authenticating into the xID service—IP-based and Token-based authentication.</p>
+
+<h3>IP Authentication</h3>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">(</span><span class="s1">'{auth_type}'</span><span class="p">,</span> <span class="s1">'{auth_params}'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">set_auth</span><span class="p">(</span><span class="s1">'{auth_type}'</span><span class="p">,</span> <span class="s1">'{auth_params}'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>Examples:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">(</span><span class="s1">'ip'</span><span class="p">,</span> <span class="s1">'my_affiliate_id'</span><span class="p">);</span>
+<span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0-8044-2957'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">set_auth</span><span class="p">(</span><span class="s1">'ip'</span><span class="p">,</span> <span class="s1">'my_affiliate_id'</span><span class="p">);</span>
+<span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getMetadata</span><span class="p">(</span><span class="s1">'0-8044-2957'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<h4>Valid values</h4>
+
+<p>Authentication type (<code>auth_type</code>):</p>
+
+<ol>
+<li>
+<code>ip</code>: String. Indicates you want to use IP-based authentication.</li>
+</ol>
+
+
+<p>Authentication parameters (<code>auth_params</code>):</p>
+
+<ol>
+<li>
+<code>your_affiliate_id</code>: String. Your affiliate ID as provided by OCLC.</li>
+</ol>
+
+
+<h3>Token Authentication</h3>
+
+<p>The IP address is an optional parameter when using a token to authenticate (will default to use the server’s IP address if not given).</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$auth_params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="s1">'{my_token}'</span><span class="p">,</span> <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="s1">'{my_secret}'</span><span class="p">,</span> <span class="s1">'ip'</span> <span class="o">=&gt;</span> <span class="s1">'{my_ip}'</span><span class="p">);</span>
+<span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">(</span><span class="s1">'token'</span><span class="p">,</span> <span class="nv">$auth_params</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$auth_params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="s1">'{my_token}'</span><span class="p">,</span> <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="s1">'{my_secret}'</span><span class="p">,</span> <span class="s1">'ip'</span> <span class="o">=&gt;</span> <span class="s1">'{my_ip}'</span><span class="p">);</span>
+<span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">set_auth</span><span class="p">(</span><span class="s1">'token'</span><span class="p">,</span> <span class="nv">$auth_params</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>Examples:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$auth_params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="s1">'mytoken'</span><span class="p">,</span> <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="s1">'mysecret'</span><span class="p">,</span> <span class="s1">'ip'</span> <span class="o">=&gt;</span> <span class="s1">'128.12.12.1'</span><span class="p">);</span>
+<span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">(</span><span class="s1">'token'</span><span class="p">,</span> <span class="nv">$auth_params</span><span class="p">);</span>
+<span class="nv">$data</span>  <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getEditions</span><span class="p">(</span><span class="s1">'0596002815'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$xisbn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Xisbn</span><span class="p">;</span>
+<span class="nv">$auth_params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="s1">'mytoken'</span><span class="p">,</span> <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="s1">'mysecret'</span><span class="p">,</span> <span class="s1">'ip'</span> <span class="o">=&gt;</span> <span class="s1">'128.12.12.1'</span><span class="p">);</span>
+<span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">set_auth</span><span class="p">(</span><span class="s1">'token'</span><span class="p">,</span> <span class="nv">$auth_params</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$xisbn</span><span class="o">-&gt;</span><span class="na">getEditions</span><span class="p">(</span><span class="s1">'0596002815'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<h4>Valid values</h4>
+
+<p>Authentication types (<code>auth_type</code>):</p>
+
+<ol>
+<li>
+<code>token</code>: String. Indicates you want to use IP-based authentication.</li>
+</ol>
+
+
+<p>Authentication parameters (<code>auth_params</code>) must be passed as an associative array:</p>
+
+<ol>
+<li>
+<code>token</code> =&gt; <code>your_token</code>: String. Your token as provided by OCLC. Required.</li>
+<li>
+<code>secret</code> =&gt; <code>your_secret</code>: String. Your secret as provided by OCLC. Required.</li>
+<li>
+<code>ip</code> =&gt; <code>your_ip</code>: String. IP address of server making the request. Optional. Default: server’s IP address</li>
 </ol>
 
 
