@@ -22,7 +22,7 @@ class XStandardNumber extends Xid {
    * @param string $ai WorldCat Affiliate ID.
    */
   public function __construct($ai = null) {
-    parent::set_ai($ai);
+    parent::set_ip_auth($ai);
     $this->base_url = 'http://xisbn' . \OCLC\Config::XID_BASE_URL;
   }
 

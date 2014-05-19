@@ -17,17 +17,32 @@ class OCLC {
   protected $token;
   protected $secret;
 
-  public function __construct($ai = null) {
-    $this->set_ai($ai);
-  }
-
   /**
-   * Sets the $ai class variable
+   * Constructor. Sets the authentication if it is sent when instantiated.
    *
    * @access public
    * @param string $ai WorldCat Affiliate ID
    */
-  public function set_ai($ai = null) {
+  public function __construct($ai = null) {
+    $this->set_ip_auth($ai);
+  }
+
+  /**
+   * Sets the $ai variable for IP authentication
+   *
+   * OCLC services use three different kinds of authentication:
+   *
+   * 1. IP Authentication: requires passing a WorldCat Affiliate ID with search.
+   * 2. Token Authentication: requires a token, a secret, and the IP address
+   * (along with the search term) to generate a hash to be used with the search.
+   * 3. WSKey Authentication: requires the key and the secret to authenticate.
+   *
+   * xID uses only IP or Token; newer services only use WSKey.
+   *
+   * @access public
+   * @param string $ai WorldCat Affiliate ID
+   */
+  public function set_ip_auth($ai = null) {
     if(is_null($ai)) {
       $this->ai = null;
     } else {
@@ -35,13 +50,55 @@ class OCLC {
     }
   }
 
+  /**
+   * Sets the $ip, $token, and $secret variables for token authentication
+   *
+   * OCLC services use three different kinds of authentication:
+   *
+   * 1. IP Authentication: requires passing a WorldCat Affiliate ID with search.
+   * 2. Token Authentication: requires a token, a secret, and the IP address
+   * (along with the search term) to generate a hash to be used with the search.
+   * 3. WSKey Authentication: requires the key and the secret to authenticate.
+   *
+   * xID uses only IP or Token; newer services only use WSKey.
+   *
+   * @access public
+   * @param string $token Authentication token
+   * @param string $secret Authentication secret
+   * @param string $ip IP of server requesting access
+   */
+  public function set_token_auth($token, $secret, $ip = null) {
+    if(is_null($ip)) { $ip = $_SERVER['SERVER_ADDR']; }
+    $this->ip     = $ip;
+    $this->token  = $token;
+    $this->secret = $secret;
+  }
+
+  /**
+   *
+   *
+   * OCLC services use three different kinds of authentication:
+   *
+   * 1. IP Authentication: requires passing a WorldCat Affiliate ID with search.
+   * 2. Token Authentication: requires a token, a secret, and the IP address
+   * (along with the search term) to generate a hash to be used with the search.
+   * 3. WSKey Authentication: requires the key and the secret to authenticate.
+   *
+   * xID uses only IP or Token; newer services only use WSKey.
+   *
+   * @access public
+   * @todo Write this function
+   */
+  public function set_wskey_auth() {
+    return null;
+  }
+
   public function batch($service, $method, $search_array, $search_options = null) {
-    if(!is_null($this->ip) && !is_null($this->secret) && !is_null($this->token)) { $hash = true; }
     $class = $this->get_class($service);
     $object = new $class;
     $results_array = null;
     foreach($search_array as $search_term) {
-      if($hash) { $search_options['hash'] = $this->generate_hash($search_term, $this->ip, $this->secret) . '&token=' . $this->token; }
+      $auth  = $this->get_auth($search_term);
       $search = array($search_term, $search_options);
       $results_array[$search_term] = call_user_func_array(array($object, $method), $search);
     }
@@ -67,11 +124,14 @@ class OCLC {
     return $this->generateHash($number, $ip, $secret);
   }
 
-  public function set_auth($token, $secret, $ip = null) {
-    if(is_null($ip)) { $ip = $_SERVER['SERVER_ADDR']; }
-    $this->ip     = $ip;
-    $this->token  = $token;
-    $this->secret = $secret;
+  private function get_auth($search_term) {
+    if(!is_null($this->ai)) {
+      return $this->ai;
+    } elseif (!is_null($this->ip) && !is_null($this->token) && !is_null($this->secret)) {
+      return $this->generate_hash($search_term, $this->ip, $this->secret) . '&token=' . $this->token;
+    } else {
+      throw new \OCLC\OCLCException('Invalid authentication type. Please go back and try again.');
+    }
   }
 
   private function get_class($service) {

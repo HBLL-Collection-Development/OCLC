@@ -11,47 +11,12 @@
 
 namespace OCLC\Xid;
 
-abstract class Xid {
-
-  protected $ai;
+abstract class Xid extends \OCLC\OCLC{
 
   abstract function getMetadata($number, $options);
   abstract function get_metadata($number, $options);
   abstract function getEditions($number, $options);
   abstract function get_editions($number, $options);
-
-  /**
-   * Sets the $ai class variable
-   *
-   * @access public
-   * @param string $ai WorldCat Affiliate ID
-   */
-  public function set_ai($ai = null) {
-    if(is_null($ai)) {
-      $this->ai = null;
-    } else {
-      $this->ai = '&ai=' . $ai;
-    }
-  }
-
-  /**
-   * Generates hash based on the number being searched, the originating IP address, and the app secret
-   *
-   * @access public
-   * @param string $term ISBN to search by.
-   * @param string $ip Originating IP address.
-   * @param string $secret App secret.
-   * @return string Generated hash that can be used in a query.
-   */
-  public function generateHash($number, $ip, $secret) {
-    return md5($this->base_url . $number . '|' . $ip . '|' . $secret);
-  }
-  /**
-   * @see \OCLC\Xid::generateHash()
-   */
-  public function generate_hash($number, $ip, $secret) {
-    return $this->generateHash($number, $ip, $secret);
-  }
 
   /**
    * Validates format options.
