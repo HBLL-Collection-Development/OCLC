@@ -11,7 +11,7 @@
 
 namespace OCLC\Classify;
 
-class Classify {
+class Classify extends \OCLC\OCLC {
 
   private $format;
 
@@ -330,13 +330,20 @@ class Classify {
   private function get_classify_data($type, $search, $options) {
     $url = $this->get_search_url($type, $search, $options);
     switch ($this->format) {
-      case 'xml':        return file_get_contents($url); break;
-      case 'json':       return json_encode(simplexml_load_file(urlencode($url))); break;
-      case 'php_object': return simplexml_load_file(urlencode($url)); break;
-      // Quick and dirty XML to PHP array solution
-      // Possible better solution for future: http://www.lalit.org/lab/convert-xml-to-array-in-php-xml2array/
-      case 'php_array':  return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
-      default:           return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
+      case 'xml':
+        header ('Content-Type: text/xml; charset=utf-8');
+        return file_get_contents($url); break;
+      case 'json':
+        header ('Content-Type: application/json; charset=utf-8');
+        return json_encode(simplexml_load_file(urlencode($url))); break;
+      case 'php_object':
+        return simplexml_load_file(urlencode($url)); break;
+      case 'php_array':
+        // Quick and dirty XML to PHP array solution
+        // Possible better solution for future: http://www.lalit.org/lab/convert-xml-to-array-in-php-xml2array/
+        return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
+      default:
+        return json_decode(json_encode(simplexml_load_file(urlencode($url))), true); break;
     }
   }
 

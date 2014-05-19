@@ -21,8 +21,8 @@ class XStandardNumber extends Xid {
    * @access public
    * @param string $ai WorldCat Affiliate ID.
    */
-  public function __construct($ai = null) {
-    parent::set_ip_auth($ai);
+  public function __construct($auth_type = null, $auth_params = null) {
+    \OCLC\OCLC::__construct($auth_type, $auth_params);
     $this->base_url = 'http://xisbn' . \OCLC\Config::XID_BASE_URL;
   }
 
@@ -265,8 +265,10 @@ class XStandardNumber extends Xid {
    * @return string|array Results of query.
    */
   private function get_data($type, $number_type, $number, $options = null) {
-    $url = $this->base_url . $number_type . '/' . $number . '?method=' . $type . $this->set_options($options) . $this->ai;
-    echo $url;die();
+    if($this->auth_type == 'token') {
+      $this->generate_hash($isbn, $this->ip, $this->secret);
+    }
+    $url = $this->base_url . $number_type . '/' . $number . '?method=' . $type . $this->set_options($options) . $this->auth;
     return file_get_contents($url);
   }
 

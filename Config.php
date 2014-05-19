@@ -17,7 +17,8 @@ class Config {
   /****************************************
    *           COMMON CONSTANTS           *
    ****************************************/
-   const OCLC_VALID_SERVICES = 'Classify, Xisbn, Xissn, XStandardNumber';
+   const OCLC_VALID_SERVICES   = 'Classify, Xisbn, Xissn, XStandardNumber';
+   const OCLC_VALID_AUTH_TYPES = 'ip, token, wskey';
 
   /****************************************
    *          CLASSIFY CONSTANTS          *
@@ -46,7 +47,7 @@ class Config {
   /////////////////////////
   // xStandardNumber
   /////////////////////////
-  const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token';
+  const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token, type';
   const XID_XSTANDARD_NUMBER_VALID_FLS          = 'lccn, oclcnum, owi, presentOclcnum, url, *';
   const XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES = 'lccn, oclcnum, owi';
 }
