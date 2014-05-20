@@ -40,6 +40,14 @@ class OCLC {
     $this->set_auth($auth_type, $auth_params);
   }
 
+  /**
+   * Generates hash based on the number being searched, the originating IP address, and the app secret
+   *
+   * @access public
+   * @param string $auth_type Authentication type to employ. Valid values for xID service are `ip` or `token`
+   * @param string|array String containing affiliate id if `ip`; array of authentication parameters if `token`.
+   * @throws OCLCException if an invalid authentication type is attempted or if a required value is not set.
+   */
   public function set_auth($auth_type = null, $auth_params = null) {
     $this->auth_params = $auth_params;
     switch ($auth_type) {
@@ -138,6 +146,17 @@ class OCLC {
     $this->auth = 'TODO: Figure this out';
   }
 
+  /**
+   * Performs any xID search in batch mode
+   *
+   * @access public
+   * @param string $service Name of service to run.
+   * @param string $method Name of method to call.
+   * @param array $search_array Array with all data to search for.
+   * @param array $search_options All search options to employ for this search.
+   * @return array Associative array with all results. Search term is returned as the key.
+   * @throws OCLCException if an invalid search option is attempted.
+   */
   public function batch($service, $method, $search_array, $search_options = null) {
     $class  = $this->get_class($service);
     $object = new $class($this->auth_type, $this->auth_params);
@@ -160,6 +179,13 @@ class OCLC {
     return $results_array;
   }
 
+  /**
+   * Validates xStandardNumber search type.
+   *
+   * @access public
+   * @param string $type Type of search to perform. Valid values are listed in \OCLC\Config::XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES.
+   * @return bool TRUE if valid, FALSE otherwise
+   */
   private function valid_standard_number_type($type) {
     if(!in_array($type, \OCLC\OCLC::constant_to_array(\OCLC\Config::XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES))) {
       throw new \OCLC\OCLCException('Invalid `type` used as a search option. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES) . '.');
@@ -190,6 +216,13 @@ class OCLC {
     return $this->generateHash($number, $ip, $secret);
   }
 
+  /**
+   * Get the class name for batch searches
+   *
+   * @access public
+   * @param string $service Name of service being called.
+   * @return string|bool Name of service being called or FALSE if invalid value is entered
+   */
   private function get_class($service) {
     if(!in_array($service, \OCLC\OCLC::constant_to_array(\OCLC\Config::OCLC_VALID_SERVICES))) {
       throw new \OCLC\OCLCException('Invalid search option used. Valid values include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::OCLC_VALID_SERVICES) . '.');
