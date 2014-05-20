@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>PHP Library for OCLC Web Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+</head>
+
+<body>
+
+
+<header>
+  <h1>OCLC Web Services Library</h1>
+  <a href="https://github.com/jaredhowland/OCLC" class="icon-github" title="View on Github"></a>
+  <div class="hidden"><a href="#content" title="Skip to content">Skip to content</a></div>
+  <nav>
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../classify/">Classify</a></li>
+        <li><a href="../xid/">xID</a></li>
+        <li><span class="active" title="You're here.">Recommender</span></li>
+      </ul>
+  </nav>
+</header>
+
+
+<section class="content">
+    
+    <article>
+        <p><a name="table-of-contents"></a></p>
+
+<h1>Table of Contents</h1>
+
+<ol>
+<li>
+<a href="#recommender">Recommender</a>
+
+<ol>
+<li><a href="#minimal-example">Minimal example</a></li>
+<li><a href="#search-methods">Search methods</a></li>
+<li><a href="#options">Options</a></li>
+<li><a href="#formats">Formats</a></li>
+<li><a href="#batch-searching">Batch Searching</a></li>
+<li><a href="#oclc-response-codes">OCLC Response Codes</a></li>
+</ol>
+</li>
+</ol>
+
+
+<p><a name="recommender"></a></p>
+
+<h1>Recommender</h1>
+
+<p>The <a href="http://www.oclc.org/developer/develop/web-services/worldcat-recommender-service.en.html">Recommender</a> service uses various characteristics of a sample work, such as classification numbers, subject headings, and genre terms, to provide a list of related works found in WorldCat. The list of recommendations may include books, ebooks, audiobooks, music, and videos.</p>
+
+<p><a name="usage"></a></p>
+
+<h2>Usage</h2>
+
+<p><a name="minimal-example"></a></p>
+
+<h3>Minimal example</h3>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\Recommender\Recommender</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">;</span>
+  <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'9780316769532'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="search-methods"></a></p>
+
+<h3>Search methods</h3>
+
+<ol>
+<li>
+<p><code>get</code>: The standard number (OCLC or ISBN) number to search for.</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'155131850'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+</li>
+</ol>
+
+
+<p><a name="options"></a></p>
+
+<h3>Options</h3>
+
+<p>Options are included as an array after the search term(s). Example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'sort'</span> <span class="o">=&gt;</span> <span class="s1">'author'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'155131850'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<ol>
+<li>
+<code>inst</code>: String. Optional: Limit results to items held by this institution.</li>
+<li>
+<code>count</code>: Integer. Optional: The number of items to return (10–25).</li>
+<li>
+<code>sort</code>: String. Optional: Sort results. Default: <code>relevance</code>
+
+<ul>
+<li><code>relevance</code></li>
+<li>
+<code>title</code> (alias of <code>title asc</code>) or <code>title desc</code>
+</li>
+<li>
+<code>author</code> (alias of <code>author asc</code>) or <code>author desc</code>
+</li>
+<li>
+<code>date</code> (alias of <code>date asc</code>) or <code>date desc</code>
+</li>
+<li>
+<code>library</code> (alias of <code>library asc</code>) or <code>library desc</code>
+</li>
+<li>
+<code>count</code> (alias of <code>count asc</code>) or <code>count desc</code>
+</li>
+<li>
+<code>score</code> (alias of <code>score asc</code>) or <code>score desc</code>
+</li>
+</ul>
+</li>
+<li>
+<code>format</code>: String. Format you want the results returned in. Default: <code>php_array</code>
+
+<ul>
+<li><code>xml</code></li>
+<li><code>json</code></li>
+<li><code>php_object</code></li>
+<li><code>php_array</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p><a name="formats"></a></p>
+
+<h3>Formats</h3>
+
+<p>I have created a special call for different formats because OCLC only supports <code>XML</code> for this service right now. If no format is specified, a <code>PHP</code> array is returned. Available formats include the following:</p>
+
+<ol>
+<li><code>xml</code></li>
+<li><code>json</code></li>
+<li><code>php_object</code></li>
+<li>
+<code>php_array</code> (default)</li>
+</ol>
+
+
+<p>Formats can be specified in three different ways:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">;</span>
+<span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">set_format</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$recommender</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Recommender</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$recommender</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="batch-searching"></a></p>
+
+<h2>Batch Searching</h2>
+
+<p>You can use any of the methods above to perform a batch search for a set of data.</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+<span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'ISBN-1'</span><span class="p">,</span> <span class="s1">'ISBN-2'</span><span class="p">,</span> <span class="s1">'ISBN-3'</span><span class="p">);</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'option1'</span> <span class="o">=&gt;</span> <span class="s1">'option1_value'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'{service_type}'</span><span class="p">,</span> <span class="s1">'{method_name}'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>Minimal example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+  <span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'1118027078'</span><span class="p">,</span> <span class="s1">'1455728969'</span><span class="p">,</span> <span class="s1">'0872899349'</span><span class="p">);</span>
+  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">);</span>
+  <span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'Recommender'</span><span class="p">,</span> <span class="s1">'get'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><strong>Note</strong>: <code>format</code> can only be specified in an options array when searching in batch mode. The other two methods for specifying <code>format</code> will not work in batch.</p>
+
+<p><a name="oclc-response-codes"></a></p>
+
+<h3>OCLC Response Codes</h3>
+
+<ul>
+<li>
+<code>0</code>: Success.</li>
+<li>
+<code>4</code>: No recommendations found for selected work.</li>
+<li>
+<code>6</code>: Selected work not found.</li>
+<li>
+<code>8</code>: Invalid request.</li>
+<li>
+<code>12</code>: Unkown error.</li>
+</ul>
+
+
+    </article>
+    
+</section>
+
+<footer class="icon-github">
+  <p><a href="https://github.com/jaredhowland/OCLC">View project on GitHub</a></p>
+  <p>Download:</p>
+  <p><a href="https://github.com/jaredhowland/OCLC/zipball/master">.zip</a> or <a href="https://github.com/jaredhowland/OCLC/tarball/master">.tar.gz</a></p>
+</footer>
+
+
+</body>
+</html>

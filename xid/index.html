@@ -19,6 +19,7 @@
         <li><a href="../">Home</a></li>
         <li><a href="../classify/">Classify</a></li>
         <li><span class="active" title="You're here.">xID</span></li>
+        <li><a href="../recommender/">Recommender</a></li>
       </ul>
   </nav>
 </header>
@@ -902,8 +903,8 @@
 <td class="code">
 <div class="highlight"><pre><span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
 <span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
-<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'option1'</span> <span class="o">=&gt;</span> <span class="s1">'option1_value'</span><span class="p">);</span>
 <span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'ISBN-1'</span><span class="p">,</span> <span class="s1">'ISBN-2'</span><span class="p">,</span> <span class="s1">'ISBN-3'</span><span class="p">);</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'option1'</span> <span class="o">=&gt;</span> <span class="s1">'option1_value'</span><span class="p">);</span>
 <span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'{service_type}'</span><span class="p">,</span> <span class="s1">'{method_name}'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
 </pre></div>
 </td>

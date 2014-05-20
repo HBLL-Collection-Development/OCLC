@@ -19,6 +19,7 @@
         <li><a href="../">Home</a></li>
         <li><span class="active" title="You're here.">Classify</span></li>
         <li><a href="../xid/">xID</a></li>
+        <li><a href="../recommender/">Recommender</a></li>
       </ul>
   </nav>
 </header>
@@ -40,6 +41,7 @@
 <li><a href="#search-methods">Search methods</a></li>
 <li><a href="#options">Options</a></li>
 <li><a href="#formats">Formats</a></li>
+<li><a href="#batch-searching">Batch Searching</a></li>
 <li><a href="#oclc-response-codes">OCLC Response Codes</a></li>
 </ol>
 </li>
@@ -333,37 +335,31 @@
 
 <ul>
 <li>
-<code>mancount asc</code> (number of editions, ascending)</li>
+<code>mancount asc</code> or <code>mancount desc</code> (number of editions)</li>
 <li>
-<code>mancount desc</code> (number of editions descending)</li>
+<code>hold asc</code> or <code>hold desc</code> (number of holdings)</li>
 <li>
-<code>hold asc</code> (holdings, ascending)</li>
+<code>lyr asc</code> or <code>lyr desc</code> (date of first edition)</li>
 <li>
-<code>hold desc</code> (holdings, descending)</li>
+<code>hyr asc</code> or <code>hyr desc</code> (date of latest edition)</li>
 <li>
-<code>lyr asc</code> (date of first edition, ascending)</li>
+<code>ln asc</code> or <code>ln desc</code> (language)</li>
 <li>
-<code>lyr desc</code> (date of first edition, descending)</li>
+<code>sheading asc</code> or <code>sheading desc</code> (FAST subject heading)</li>
 <li>
-<code>hyr asc</code> (date of latest edition, ascending)</li>
+<code>works asc</code> or <code>works desc</code> (number of works with this FAST subject heading)</li>
 <li>
-<code>hyr desc</code> (date of latest edition, descending)</li>
+<code>type asc</code> or <code>type desc</code> (FAST subject type)</li>
+</ul>
+</li>
 <li>
-<code>ln asc</code> (language, ascending)</li>
-<li>
-<code>ln desc</code> (language, descending)</li>
-<li>
-<code>sheading asc</code> (FAST subject heading, ascending)</li>
-<li>
-<code>sheading desc</code> (FAST subject heading, descending)</li>
-<li>
-<code>works asc</code> (number of works with this FAST subject heading, ascending)</li>
-<li>
-<code>works desc</code> (number of works with this FAST subject heading, descending)</li>
-<li>
-<code>type asc</code> (FAST subject type, ascending)</li>
-<li>
-<code>type desc</code> (FAST subject type, descending)</li>
+<code>format</code>: String. Format you want the results returned in. Default: <code>php_array</code>
+
+<ul>
+<li><code>xml</code></li>
+<li><code>json</code></li>
+<li><code>php_object</code></li>
+<li><code>php_array</code></li>
 </ul>
 </li>
 </ol>
@@ -373,9 +369,7 @@
 
 <h3>Formats</h3>
 
-<p>Normally, <code>format</code> would be included in the options array but Classify only returns <code>XML</code> so I have created a special call for different formats. If OCLC ever includes different formats as a default option, I will incorporate it into the options.</p>
-
-<p>Multiple output formats are available in this library. If no format is specified, a <code>PHP</code> array is returned. Available formats include the following:</p>
+<p>I have created a special call for different formats because OCLC only supports <code>XML</code> for this service right now. If no format is specified, a <code>PHP</code> array is returned. Available formats include the following:</p>
 
 <ol>
 <li><code>xml</code></li>
@@ -393,7 +387,7 @@
 2</pre></div></td>
 <td class="code">
 <div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">(</span><span class="s1">'json'</span><span class="p">);</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
+<span class="nv">$data</span>     <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">);</span>
 </pre></div>
 </td>
 </tr></table></code></pre>
@@ -411,6 +405,82 @@
 </pre></div>
 </td>
 </tr></table></code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="nv">$classify</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Classify</span><span class="p">;</span>
+<span class="nv">$options</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">);</span>
+<span class="nv">$data</span>     <span class="o">=</span> <span class="nv">$classify</span><span class="o">-&gt;</span><span class="na">stdnbr</span><span class="p">(</span><span class="s1">'222654874'</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><a name="batch-searching"></a></p>
+
+<h2>Batch Searching</h2>
+
+<p>You can use any of the methods above to perform a batch search for a set of data.</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'option1'</span> <span class="o">=&gt;</span> <span class="s1">'option1_value'</span><span class="p">);</span>
+<span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'ISBN-1'</span><span class="p">,</span> <span class="s1">'ISBN-2'</span><span class="p">,</span> <span class="s1">'ISBN-3'</span><span class="p">);</span>
+<span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'{service_type}'</span><span class="p">,</span> <span class="s1">'{method_name}'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p>Minimal example:</p>
+
+<pre><code class="language-php"><table class="highlighttable"><tr>
+<td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td>
+<td class="code">
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">OCLC\OCLC</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$oclc</span>    <span class="o">=</span> <span class="k">new</span> <span class="nx">OCLC</span><span class="p">;</span>
+  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'format'</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">);</span>
+  <span class="nv">$search</span>  <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'1118027078'</span><span class="p">,</span> <span class="s1">'1455728969'</span><span class="p">,</span> <span class="s1">'0872899349'</span><span class="p">);</span>
+  <span class="nv">$data</span>    <span class="o">=</span> <span class="nv">$oclc</span><span class="o">-&gt;</span><span class="na">batch</span><span class="p">(</span><span class="s1">'Classify'</span><span class="p">,</span> <span class="s1">'oclc'</span><span class="p">,</span> <span class="nv">$search</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</td>
+</tr></table></code></pre>
+
+<p><strong>Note</strong>: <code>format</code> can only be specified in an options array when searching in batch mode. The other two methods for specifying <code>format</code> will not work in batch.</p>
 
 <p><a name="oclc-response-codes"></a></p>
 
