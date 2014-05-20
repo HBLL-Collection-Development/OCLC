@@ -331,10 +331,8 @@ class Classify extends \OCLC\OCLC {
     $url = $this->get_search_url($type, $search, $options);
     switch ($this->format) {
       case 'xml':
-        header ('Content-Type: text/xml; charset=utf-8');
         return file_get_contents($url); break;
       case 'json':
-        header ('Content-Type: application/json; charset=utf-8');
         return json_encode(simplexml_load_file(urlencode($url))); break;
       case 'php_object':
         return simplexml_load_file(urlencode($url)); break;
@@ -451,6 +449,9 @@ class Classify extends \OCLC\OCLC {
             break;
           case 'startRec':
             $options_array['startRec'] = (int) $value;
+            break;
+          case 'format':
+            $this->set_format($value);
             break;
         }
       }

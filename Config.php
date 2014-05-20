@@ -17,7 +17,7 @@ class Config {
   /****************************************
    *           COMMON CONSTANTS           *
    ****************************************/
-   const OCLC_VALID_SERVICES   = 'Classify, Xisbn, Xissn, XStandardNumber';
+   const OCLC_VALID_SERVICES   = 'Classify, Xisbn, Xissn, XStandardNumber, Recommender';
    const OCLC_VALID_AUTH_TYPES = 'ip, token, wskey';
 
   /****************************************
@@ -25,7 +25,7 @@ class Config {
    ****************************************/
    const CLASSIFY_BASE_URL        = 'http://classify.oclc.org/classify2/Classify?';
    const CLASSIFY_VALID_FORMATS   = 'xml, json, php_object, php_array';
-   const CLASSIFY_VALID_OPTIONS   = 'summary, maxRecs, orderBy, startRec';
+   const CLASSIFY_VALID_OPTIONS   = 'summary, maxRecs, orderBy, startRec, format';
    const CLASSIFY_VALID_SEARCHES  = 'stdnbr, standard_number, oclc, isbn, issn, upc, ident, heading, lccn, lccn_pfx, lccn_yr, lccn_sno, swid, author, title';
    const CLASSIFY_VALID_ORDER_BYS = 'mancount asc, mancount desc, hold asc, hold desc, lyr asc, lyr desc, hyr asc, hyr desc, ln asc, ln desc, sheading asc, sheading desc, works asc, works desc, type asc, type desc';
 
@@ -50,6 +50,14 @@ class Config {
   const XID_XSTANDARD_NUMBER_VALID_OPTIONS      = 'format, callback, fl, hash, token, type';
   const XID_XSTANDARD_NUMBER_VALID_FLS          = 'lccn, oclcnum, owi, presentOclcnum, url, *';
   const XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES = 'lccn, oclcnum, owi';
+
+  /****************************************
+   *        RECOMMENDER CONSTANTS         *
+   ****************************************/
+  const RECOMMENDER_BASE_URL      = 'http://experimental.worldcat.org/recommender/MLT/';
+  const RECOMMENDER_VALID_FORMATS = 'xml, json, php_object, php_array';
+  const RECOMMENDER_VALID_OPTIONS = 'inst, count, sort, format';
+  const RECOMMENDER_VALID_SORTS   = 'relevance, title, title asc, title desc, author, author asc, author desc, date, date asc, date desc, library, library asc, library desc, count, count asc, count desc, score, score asc, score desc';
 }
 
 ?>
