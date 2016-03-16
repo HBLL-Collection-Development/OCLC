@@ -147,7 +147,7 @@ class OCLC {
   }
 
   /**
-   * Performs any xID search in batch mode
+   * Performs any search in batch mode
    *
    * @access public
    * @param string $service Name of service to run.
@@ -161,7 +161,7 @@ class OCLC {
     $class  = $this->get_class($service);
     $object = new $class($this->auth_type, $this->auth_params);
     $results_array = null;
-    // Options must include `type` for these three methods
+    // Options must include `type` for these three xID methods
     if($method == 'getEditions' || $method == 'getMetadata' || $method == 'getVariants') {
       if(!array_key_exists('type', $search_options)) {
         throw new \OCLC\OCLCException('Type must be included if you are trying to call `getEditions`, `getMetadata`, or `getVariants`. Valid `type`s include ' . \OCLC\OCLC::constant_to_string(\OCLC\Config::XID_XSTANDARD_NUMBER_VALID_NUMBER_TYPES) . '.');
