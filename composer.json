@@ -1,0 +1,19 @@
+{
+    "name": "hbll-collection-development/oclc",
+    "description": "PHP library to access OCLC's Xid service.",
+    "homepage": "https://github.com/hbll-collection-development/oclc",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "NWA" : "src"
+        }
+    },
+    "authors": [{
+        "name": "Jared Howland",
+        "homepage": "http://jaredhowland.com",
+        "role": "developer"
+    }],
+    "require": {
+        "php": "^5.6",
+    }
+}
